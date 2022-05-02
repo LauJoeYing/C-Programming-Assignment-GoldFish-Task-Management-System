@@ -1,6 +1,3 @@
-#include <string.h>
-#include <time.h>
-
 #include <stdio.h>
 
 void main(){
@@ -41,19 +38,5 @@ void main(){
       //add_task();
     }
   }
+  return 0;
 }
-
-void date(){
-  time_t t = time(NULL);
-  struct tm tm = *localtime(&t);
-  printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-}
-
-void haha(){
-
-}
-    
-
-
-
-
