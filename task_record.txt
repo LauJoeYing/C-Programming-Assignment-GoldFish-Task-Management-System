@@ -1,0 +1,29 @@
+    Date & Time     |  username  |    name    |   deadline | task_title| task_description| category | task_status
+30/01/2019 09:25:54 | vivian2002 | VIVIAN TAN | 05/07/2019 | Gardening | Grow vegetables | Personal | Slightly Urgent
+24/03/2019 13:48:17 | sb9101 | STEPHEN BENNET | 03/08/2019 | Do Scrapbook | Create a scrapbook of positive news stories | Writing | Urgent
+09/04/2019 15:43:46 | hew88leon | LEON HEW | 10/04/2020 | Show @10pm | Watch a show | Hobby | Urgent
+18/05/2019 00:43:50 | charles1980 | CHARLES HOWARD | 28/05/2019 | Newsletter | Start a newsletter about something you love | Weekend To Do List | Normal
+29/06/2019 07:26:43 | aaronnn00 | AARON LAW | 06/07/2019 | New Story | Plot a story about an imaginary creature | Writing | Urgent
+28/07/2019 09:23:32 | zanlamchen | CHEN ZAN LAM | 29/07/2019 | Skype Jason | Skype an old friend | Meeting | Normal
+21/09/2019 18:03:07 | rosie99 | SUAIDAH BINTI WAN KASIM ZAFRAN | 30/10/2022 | Pianooo | Learn to play the piano | Hobby | Slightly Urgent
+05/11/2019 06:41:25 | CHOW1158 | CHOW ZEE HA | 15/11/2019 | Indoor Picnic | Have a picnic indoors. | Activity | Urgent
+12/02/2020 08:14:20 | atss723529 | ADDY THUN SUAN SIAU | 14/02/2020 | Origami Lesson | Make a origami swan | Hobby | Normal
+12/02/2020 09:02:49 | haizan1996 | MUHAMAD HAIZAN BIN FITRI | 27/04/2021 | Parody | Write a parody of your favourite song | Weekend To Do List | Normal
+07/04/2020 19:08:08 | ja66naky | JANAKY LAKSHMI A/L MANJIT | 01/05/2020 | Musuem Tour | Take a tour of a museum | Weekend Activity | Urgent
+29/04/2020 20:53:53 | jie9981 | JIE BO HOU | 27/05/2020 | Exihibition | Take a virtual tour of an exhibition | Holiday Activity | Normal
+16/06/2020 07:22:42 | sam56zijia | SAM ZI JIA | 01/01/2021 | Plan a day | Plan a safari theme day | Party Planning  | Urgent
+05/09/2020 07:05:18 | angzhiluk | ANG ZHI LUK | 06/09/2020 | Newspaper! | Read a newspaper | To do list | Urgent
+03/10/2020 03:10:32 | kundanhaha | KUNDAN LAL NAGARAJ A/L JASSAL | 24/10/2020 | Wordsearch! | Create a wordsearch | To do list | Urgent
+08/11/2020 19:27:30 | EmelyBeloved03 | RACHEL MAH WEI SIU | 31/12/2020 | Huntttt! | Host a scavenger hunt | Event Planning | Slightly Urgent
+03/12/2020 05:49:47 | elaineoon77 | ELAINE OON SUN | 28/01/2022 | Fishy Fishy | Adopt a fish | Pet | Urgent
+24/12/2020 00:59:57 | aleyaaaaaa | ALEYA AZRAAI | 24/03/2021 | Story-Bank Robbery | Write a story about a bank robbery | Storyline | Normal
+11/04/2021 01:06:26 | hafieza38 | NOOR HAFIEZA ALBUKHARY | 13/04/2021 | Jemi-8am | Perform a stand up routine for your friends | meeting | Slightly Urgent
+13/05/2021 19:27:36 | alyahappy | NUR ALYA MALIKI BINTI DZULLUTFI | 15/05/2021 | Rmb to do Wordsearch! | Do a wordsearch | Hobby | Normal
+30/06/2021 12:46:06 | ehza1982 | MOHD EHZA NORAZAM | 26/07/2021 | Youtube Channel | Start a YouTube channel about football | Plans | Urgent
+24/07/2021 05:56:28 | cecelie93 | CECELIE EMIRA | 09/01/2022 | FB Group! | Start a Facebook group about fun things to do | Plans | Urgent
+05/10/2021 11:40:44 | ester1981yew | YEWANDE ESTER | 03/11/2021 | Insta Challenge | Set a challenge on Instagram | Marketing | Slightly Urgent
+14/11/2021 21:19:14 | vivian2002 | VIVIAN TAN | 17/11/2021 | Write Letter | Write to residents of an old people's home who may be lonely | Weekend To Do List | Slightly Urgent
+11/02/2022 22:58:06 | vivian2002 | VIVIAN TAN | 04/04/2022 | Balloon | Decorate a papier mache balloon | Party Planning  | Slightly Urgent
+21/03/2022 11:02:16 | vivian2002 | VIVIAN TAN | 30/03/2022 | Handprint Art | Make handprint art | Class | Normal
+01/04/2022 04:41:15 | vivian2002 | VIVIAN TAN | 07/04/2022 | New pizza is otw!!! | Invent a new type of pizza | Pizza 1 | Urgent
+08/04/2022 13:20:07 | vivian2002 | VIVIAN TAN | 01/05/2022 | Create Campaign! | Campaign for something you belive in | Event Planning | Urgent
