@@ -58,14 +58,21 @@ int getChoiceNum(int maxChoice) {
                 continue;
             }
         } else {
-            if (userInput_length == 1 && tolower(userInput) == "x") {
-                while (1) {
-                    printf("Confirm exit? [X - To Confirm Exit]");
-                }
+            if (userInput_length == 1 && tolower(userInput[0]) == 'x') {
+                    char userExitInput[256];
+                    int userExitInput_length;
+                    printf("\nConfirm exit? [X - To Confirm Exit]\n");
+                    scanf("%s",&userExitInput);
+                    userExitInput_length = strlen(userExitInput);
+                    if (userExitInput_length == 1 && tolower(userExitInput[0]) == 'x') {
+                        break;
+                    } else {
+                        continue;
+                    };
             } else {
                 printf("%s is not a validated number.", userInput);
                 continue;
-            }
-        }
-    }
-}
+            };
+        };
+    };
+};
