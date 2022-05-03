@@ -77,6 +77,6 @@ int main() {
             printf("Year is not valid.\n");
             continue;
         }
-            return 0;    
+        return 0;    
     }
 }
