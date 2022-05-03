@@ -27,37 +27,7 @@ int add_task()
 }
 
 
-  int create_task_confirmation(date, new_title, new_task){
-    int choice;
-    do{
-      printf("Is all the details entered correctly and can be saved into the database?");
-      choice = twoChoices("1","Completed and Proceed","2", "Modify");
-      switch (choice){
-        case "X" || "x" : return;        
-        case 1:
-        case 2:
-          for (int loop = 0; loop<=75; loop++){
-            printf("-");
-          } 
-          printf("======= Section that you would like to modify =======");
-          printf("[ 1 ] - Deadline of the Task");
-          printf("[ 2 ] - New Task Title");
-          printf("[ 3 ] - New Task Description");
-          printf("[ X ] - Back");
-          choice = process_num(3);
-          switch (choice){
-            case "X" || "x": continue;
-            case 1:
-              printf("\nPrevious Entered Deadline\t\t:",add_task(date))
-          }
-      }
-    }
-    while (1){
-
-    }
-    //progress and status
-
-}
+  
 
 
     
