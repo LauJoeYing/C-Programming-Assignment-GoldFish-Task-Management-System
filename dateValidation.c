@@ -6,7 +6,7 @@
 
 int checkIsNumber(char * target);
 
-int main() {
+int dateValidation() {
     while(1) {
         char dateInput[11], dateInputCopy[11];
         const char *delimiter = "/";
