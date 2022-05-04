@@ -1,4 +1,4 @@
-username | password | name | contact_num | date of birth | registered_email
+username | password | name | contact_num | date_of_birth | registered_email
 vivian2002 | vivian123 | VIVIAN TAN | 60193456777 | 20/10/1977 | viviantan@gmail.com
 sb9101 | dWhuD8wcCt | STEPHEN BENNET | +1 240-847-9447 | 20/01/1996 | stephen1996@yahoo.com
 hew88leon | FS66P9CfPZ | LEON HEW | +1 505-623-9096 | 01/06/1980 | leon88@yahoo.com
@@ -26,5 +26,3 @@ abessaxx95 | KytjbX5wCm | ABESSA DERORIT | +420 737 945 518 | 06/01/1995 | abeee
 ruth06ruth | sjawAuukPV | KARINA RUTH | +420 704 835 145 | 12/08/1999 | karina991@yahoo.com
 ginaaaa94xx | TSpMK3Tx8a | RENATA GINA | +420 607 940 881 | 11/07/1994 | ginarenata@gmail.com
 angniuniu | niuniu071209 | Ang Niu Niu | +60 12 690 0655 | 25/12/2019 | angniuniu@gmail.com
-angniuniu | niuniu071209 | Ang Niu Niu | +60 12 690 0655 | 25/12/2019 | angniuniu@gmail.com
-jgvskjgslg | niuniu071209 | Ang Niu Niu | +60 12 690 0655 | 25/12/2019 | angniuniu@gmail.com

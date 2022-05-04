@@ -207,7 +207,7 @@ int add_new_task()
         case 3:
           task_category = "Social";
         case 4:
-          prinf("Please Enter Your New Task Category:");
+          printf("Please Enter Your New Task Category:");
           scanf("%s",&task_category);
     }
 

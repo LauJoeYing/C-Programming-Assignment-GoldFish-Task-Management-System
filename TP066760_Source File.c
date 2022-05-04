@@ -7,7 +7,7 @@
 int user_menu(){
     printf("Welcome to the Main Menu of Goldfish Personal Task Management System!");
     printf("[ 1 ] - Add New Task");
-    printf("[ 2 ] - Upadate or Delete Task");
+    printf("[ 2 ] - Update or Delete Task");
     printf("[ 3 ] - Search and View Task");
     printf("[ 4 ] - Generate Productivity Report");
     printf("[ 5 ] - Change Password");
