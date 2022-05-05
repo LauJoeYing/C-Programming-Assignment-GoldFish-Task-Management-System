@@ -81,64 +81,76 @@ int date(){
 // };
 
 
-// //EOF= End of File
-// int readFile(FILE * f_user)
-// {
-//     char ch;
-//     do 
-//     {
-//         ch = fgetc(f_user);
+// EOF= End of File
+int readFile(FILE * f_user)
+{
+    char ch;
+    do 
+    {
+        ch = fgetc(f_user);
 
-//         putchar(ch);
+        putchar(ch);
 
-//     } while (ch != EOF);
-//     return 0;
-// };
+    } while (ch != EOF);
+    return 0;
+};
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 
-
+#include <string.h>
+#include <time.h>
+#include <stdio.h>
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// To Validate Date Input From User
-// int main(day,month,year) {
-//     int dd,mm,yy;
+//To Validate Date Input From User
+int main(day,month,year) {
+    int dd,mm,yy;
 
-//     //check year
-//     while (1){
-//         printf("Enter date (DD/MM/YYYY format): ");
-//         scanf("%d/%d/%d",&dd,&mm,&yy);
-//         if(yy>=1900 && yy<=2022) {
-//         //check month
-//             if(mm>=1 && mm<=12) {
-//                 //check days
-//                 if((dd>=1 && dd<=31) && (mm==1 || mm==3 || mm==5 || mm==7 || mm==8 || mm==10 || mm==12)) {
-//                     printf("Date is valid.\n");
-//                     break;
-//                 } else if((dd>=1 && dd<=30) && (mm==4 || mm==6 || mm==9 || mm==11)) {
-//                     printf("Date is valid.\n");
-//                     break;
-//                 } else if((dd>=1 && dd<=28) && (mm==2)){
-//                     printf("Date is valid.\n");
-//                     break;
-//                 } else if(dd==29 && mm==2 && (yy%400==0 ||(yy%4==0 && yy%100!=0))){
-//                     printf("Date is valid.\n");
-//                     break;
-//                 } else{
-//                     printf("Day is invalid.\n");
-//                     continue;
-//                 }
-//             } else {
-//                 printf("Month is not valid.\n");
-//                 continue;
-//             }
-//         } else {
-//             printf("Year is not valid.\n");
-//             continue;
-//         }
-//         return 0;    
-//     }
-// }
+    //check year
+    while (1){
+        printf("Enter date (DD/MM/YYYY format): ");
+        scanf("%d/%d/%d",&dd,&mm,&yy);
+        if(yy>=1900 && yy<=2022) {
+        //check month
+            if(mm>=1 && mm<=12) {
+                //check days
+                if((dd>=1 && dd<=31) && (mm==1 || mm==3 || mm==5 || mm==7 || mm==8 || mm==10 || mm==12)) {
+                    printf("Date is valid.\n");
+                    char date_record[20] = "";
+                    strcat(date_record, dd);
+                    strcat(date_record, "/");
+                    strcat(date_record, mm);
+                    strcat(date_record, "/");
+                    strcat(date_record, yy);
+                    printf("Date is valid.\n",date_record);
+                    break;
+                } else if((dd>=1 && dd<=30) && (mm==4 || mm==6 || mm==9 || mm==11)) {
+                    printf("Date is valid.\n");
+                    return (dd,mm,yy);
+                    break;
+                } else if((dd>=1 && dd<=28) && (mm==2)){
+                    printf("Date is valid.\n");
+                    return (dd,mm,yy);
+                    break;
+                } else if(dd==29 && mm==2 && (yy%400==0 ||(yy%4==0 && yy%100!=0))){
+                    printf("Date is valid.\n");
+                    return (dd,mm,yy);
+                    break;
+                } else{
+                    printf("Day is invalid.\n");
+                    continue;
+                }
+            } else {
+                printf("Month is not valid.\n");
+                continue;
+            }
+        } else {
+            printf("Year is not valid.\n");
+            continue;
+        }
+        return 0;    
+    }
+}
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
@@ -186,7 +198,7 @@ int create_task_confirmation(date, new_title, new_task){
 int add_new_task()
 {
     char task_title[50];
-    char task_description, task_category, task_status,task_priority;
+    char task_description, task_category, task_status,task_priority, task_deadline;
     int block;
     printf("===*===*===*== Welcome to Add Task Section ==*===*===*===*");
     printf("\nNew task of");
@@ -214,8 +226,8 @@ int add_new_task()
     printf("\nPlease Enter the New Task Title ");
     scanf("%s",task_title);
 
-    printf("\nPlease Enter the New Task Description (Max 256 Characters");
-    scanf("%s",task_title);
+    printf("\nPlease Enter the New Task Description (Max 1000 Characters");
+    scanf("%s",task_description);
 
     printf("\n===== Please Select the New Task Status: =====");
     printf("[ 1 ] - Not Started");
@@ -244,13 +256,44 @@ int add_new_task()
         case 1: 
           task_priority = "Low";
         case 2:
-          task_status= "Normal";
+          task_priority= "Normal";
         case 3:
-          task_status = "Slightly Urgent";
+          task_priority = "Slightly Urgent";
         case 4:
-          task_status = "Urgent";
+          task_priority = "Urgent";
     }
 
+    char task_record[1000] = "";
+    
+    strcat(task_record, username);
+    strcat(task_record, " | ");
+    strcat(task_record, user_password);
+    strcat(task_record, " | ");
+    strcat(task_record, user_name);
+    strcat(task_record, " | ");
+    strcat(task_record, user_contact_num);
+    strcat(task_record, " | ");
+    strcat(task_record, user_dob);
+    strcat(task_record, " | ");
+    strcat(task_record, user_email);
+    
+    user_fPtr = fopen("users.txt", "a");
+
+    /* Append data to file */
+    fprintf(user_fPtr, "\n%s", userData); 
+
+    /* Reopen file in read mode to print file contents */
+    user_fPtr = freopen("users.txt", "r", user_fPtr);
+
+    /* Print file contents after appending string */
+    printf("\nSuccessfully appended data to file. \n");
+    printf("Changed file contents:\n\n");         
+    readFile(user_fPtr);
+
+    /* Done with file, hence close file. */
+    fclose(user_fPtr);
+    return 0;
+  };
 
   
 }

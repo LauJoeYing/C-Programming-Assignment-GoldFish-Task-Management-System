@@ -6,18 +6,20 @@
 #include "date.h"
 
 struct Dates dateValidation();
-int checkIsNumber(char * target);
+int checkIsNumber(char *target);
 
 int main() {
     dateValidation();
-    return 0;
 };
 
 struct Dates dateValidation() {
     while(1) {
         char dateInput[11], dateInputCopy[11];
         const char *delimiter = "/";
-        int day, month, year, invalidDay, invalidMonth, invalidYear;
+        int day, month, year;
+        int invalidDay = 0;
+        int invalidMonth = 0;
+        int invalidYear = 0;
         printf("Please enter the date in (DD/MM/YYYY)\t: ");
         scanf("%s", &dateInput);
         strcpy(dateInputCopy, dateInput);
@@ -58,56 +60,19 @@ struct Dates dateValidation() {
                         } else {
                             invalidYear = 1;
                         };
-                        if (invalidDay == invalidMonth == invalidYear) {
-                            printf("\nInvalid day (%i), month (%i), and year (%i). Please try again.\n", day, month, year);
-                            continue;
-                        }
-                        else if (invalidDay == 1) {
-                            if (invalidMonth == 1) {
-                                printf("\nInvalid day (%i) and month (%i) in year (%i). Please try again.\n", day, month, year);
-                                continue;
-                            }
-                            else if (invalidYear == 1) {
-                                printf("\nInvalid year (%i) and invalid day (%i) in month (%i) of year (%i) . Please try again.\n", year, day, month, year);
-                                continue;
-                            }
-                            else {
-                                printf("\nInvalid day (%i) in month (%i) of year (%i). Please try again.\n", day, month, year);
-                                continue;
-                            };
-                        }
-                        else if (invalidMonth == 1) {
-                            if (invalidYear == 1) {
-                                printf("\nInvalid month (%i) and year (%i). Please try again.\n", month, year);
-                                continue;
-                            }
-                            else {
-                                printf("\nInvalid month (%i). Please try again.\n", month);
-                                continue;
-                            };
-                        }
-                        else {
-                            printf("\nInvalid day (%i) and year (%i). Please try again.\n", day,year);
+                        if (invalidDay == 1 || invalidMonth == 1 || invalidYear == 1) {
+                            printf("Invalid Date Input! Please Try Again!");
                             continue;
                         };
-                    } else {
-                        printf("Invalid year format (%s). Please try again.\n", token);
-                        continue;
-                    };
-                } else {
-                    printf("Invalid month format (%s). Please try again.\n", token);       
-                    continue;          
-                };
-            } else {
-                printf("Invalid day format (%s). Please try again.\n", token);
-                continue;
-            };
-            
-        };
+                    }; 
+                };     
+            }; 
+        }
     };
 };
 
-int checkIsNumber(char * target) {
+int checkIsNumber(char * target)
+{
     int targetLength = strlen(target), validatedLength = 0;
     for (int i = 0; i < strlen(target); i++) {
         if (isdigit(target[i]) == 1) {
@@ -118,4 +83,4 @@ int checkIsNumber(char * target) {
         return 1;
     };
     return 0;
-};
+}

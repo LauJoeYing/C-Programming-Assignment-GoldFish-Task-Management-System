@@ -10,7 +10,12 @@ struct Account {
     char contact_num[21];
     char date_of_birth[11];
     char email[321];
-} ;
+};
+
+struct Task {
+    char username[21];
+    char status
+};
 
 int loginUser(struct Account user, char *userType);
 int registerUser(struct Account user, char userType);
@@ -33,8 +38,7 @@ int main() {
 int registerUser(struct Account user, char userType) {
     char *userTypeDisplay = userType == 'a' ? "Admin" : "User";
     char *fileName = userType == 'a' ? "admintry.txt" : "usertry.txt";
-    FILE *fileAppender;
-    fileAppender = checkFileExistence(fileName, "a");
+    FILE *fileAppender = checkFileExistence(fileName, "a");
     fwrite(&user, sizeof(struct Account), 1, fileAppender);
     if (fwrite != 0) {
         printf("%s has been registered successfully !\n", userTypeDisplay);
@@ -55,6 +59,7 @@ int getUserData() {
    return 0;
 };
 
+//To Check Whether the Target File is in Correct Directory
 FILE *checkFileExistence(char *fileName, char *fileHandling_method) {
     while (1) {
         FILE *filePointer;

@@ -112,7 +112,7 @@ int registration()
     fwrite(&user,sizeof(user),1,filePointer);
     fclose(filePointer);
 
-    printf("\nConfirming details...\n...\nWelcome, %s!\n\n",firstname);
+    printf("\nConfirming details...\n...\nWelcome, %s!\n\n",user.name);
     printf("\nRegistration Successful!\n");
     printf("Press any key to continue...");
         getchar();
