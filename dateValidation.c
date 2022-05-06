@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include "date.h"
 
+<<<<<<< Updated upstream
 struct Dates dateValidation();
 int checkIsNumber(char * target);
 
@@ -14,6 +15,9 @@ int main() {
 };
 
 struct Dates dateValidation() {
+=======
+Date dateValidation() {
+>>>>>>> Stashed changes
     while(1) {
         char dateInput[11], dateInputCopy[11];
         const char *delimiter = "/";
@@ -43,13 +47,18 @@ struct Dates dateValidation() {
                             if(month >= 1 && month <= 12) {
                                 //check days
                                 if( (day >= 1 && day <= 31) && (month >= 1 && month <= 7 && month % 2 == 1 || month >= 8 && month <= 12 && month % 2 == 0) || ((day >= 1 && day <= 30) && (month==4 || month ==6 || month == 9 || month == 11)) || ((day >= 1 && day <= 28) && (month == 2)) || (day == 29 && month == 2 && (year % 400 == 0 ||(year %4 == 0 && year %100 != 0)))) {
+<<<<<<< Updated upstream
                                     struct Dates validatedDate = {
+=======
+                                    Date validatedDate = {
+>>>>>>> Stashed changes
                                         day,
                                         month,
                                         year
                                     };
                                     return validatedDate;
                                 } else {
+<<<<<<< Updated upstream
                                     invalidDay = 1;
                                 };
                             } else {
@@ -88,18 +97,32 @@ struct Dates dateValidation() {
                         }
                         else {
                             printf("\nInvalid day (%i) and year (%i). Please try again.\n", day,year);
+=======
+                                    printDateError();
+                                    continue;
+                                };
+                            } else {
+                                printDateError();
+                                continue;
+                            };
+                        } else {
+                            printDateError();
+>>>>>>> Stashed changes
                             continue;
                         };
                     } else {
-                        printf("Invalid year format (%s). Please try again.\n", token);
+                        // printf("Invalid year format (%s). Please try again.\n", token);
+                        printDateError();
                         continue;
                     };
                 } else {
-                    printf("Invalid month format (%s). Please try again.\n", token);       
+                    // printf("Invalid month format (%s). Please try again.\n", token);       
+                    printDateError();
                     continue;          
                 };
             } else {
-                printf("Invalid day format (%s). Please try again.\n", token);
+                // printf("Invalid day format (%s). Please try again.\n", token);
+                printDateError();
                 continue;
             };
             
@@ -118,4 +141,13 @@ int checkIsNumber(char * target) {
         return 1;
     };
     return 0;
+<<<<<<< Updated upstream
 };
+=======
+};
+
+int printDateError() {
+    printf("Invalid date entry. Please try again.\n");
+    return 0;
+}
+>>>>>>> Stashed changes
