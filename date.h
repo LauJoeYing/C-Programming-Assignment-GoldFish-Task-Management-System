@@ -1,19 +1,14 @@
-<<<<<<< Updated upstream
-#ifndef date_h
-#define date_h 
-=======
 #ifndef DATE_H
-#define DATE_H
->>>>>>> Stashed changes
+#define DATE_H 
+#include <time.h>
 
 typedef struct Dates {
     int day;
     int month;
     int year;
-<<<<<<< Updated upstream
-};
-=======
 } Date;
->>>>>>> Stashed changes
+
+Date dateValidation();
+int printDateError();
 
 #endif

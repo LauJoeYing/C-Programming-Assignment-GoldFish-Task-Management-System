@@ -1,8 +1,9 @@
 {
   "files.associations": {
-    "string.h": "c"
+    "string.h": "c",
+    "menu.h": "c"
   },
-  "C_Cpp.errorSquiggles": "EnabledIfIncludesResolve",
+  "C_Cpp.errorSquiggles": "Enabled",
   "C_Cpp_Runner.cCompilerPath": "C:/MinGW/bin/gcc.exe",
   "C_Cpp_Runner.debuggerPath": "C:/MinGW/bin/gdb.exe",
   "C_Cpp_Runner.cStandard": "",
