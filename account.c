@@ -3,22 +3,23 @@
 #include <ctype.h>
 #include <string.h>
 #include "account.h"
+#include "fileHandling.c"
 
-int loginUser(Account user, char *userType);
+int loginUser(Account user, char userType);
 int registerUser(Account user, char userType);
-int getUserData();
-FILE *checkFileExistence(char *fileName, char *fileHandling_method);
+int getUserData(char userType);
 
 int main() {
     Account user = {
-        "joeeeyyy",
+        "niuniu",
         "Lj071209y",
-        "Lau Joe Ying",
-        "+60 18 362 6989",
-        "12/07/2022",
-        "joeying0712@gmail.com"
+        "Ang Niu Niu",
+        "+60 12 690 0655",
+        "25/12/2019",
+        "angniuniu@gmail.com"
     };
-    getUserData();
+    // registerUser(user, 'u');
+    getUserData('u');
     return 0;
 }
 
@@ -26,29 +27,30 @@ int registerUser(Account user, char userType) {
     char *userTypeDisplay = userType == 'a' ? "Admin" : "User";
     char *fileName = userType == 'a' ? "admintry.txt" : "usertry.txt";
     FILE *fileAppender;
-    fileAppender = checkFileExistence(fileName, "a");
+    fileAppender = checkFileExistence(fileName, "a", 1);
     fwrite(&user, sizeof(Account), 1, fileAppender);
     if (fwrite != 0) {
         printf("%s has been registered successfully !\n", userTypeDisplay);
     } else {
         printf("Error registering %s!\n", userTypeDisplay);
     };
-    if (userType == 'u') {
-        FILE *taskFileAppender;
-        taskFileAppender = checkFileExistence("taskTry.txt", "a");
 
-    };
-    fclose(fileAppender);
     return 0;
 };
 
-int getUserData() {
+int loginUser(Account user, char userType) {
+
+    return 0;
+};
+
+int getUserData(char userType) {
     Account user;
-    FILE *fileReader = checkFileExistence("usertry.txt", "r");
+    FILE *fileReader = checkFileExistence("usertry.txt", "r", 0);
     while(fread(&user, sizeof(Account), 1, fileReader)) {
         printf ("username = %s password = %s\n", user.username, user.password);
     }
    fclose(fileReader);
+
    return 0;
 };
 

@@ -577,20 +577,27 @@ int deleteTask(char *username) {
     taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0); 
     taskFileWriter = fopen("temp_task_recordtry.txt", "w");   
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
-        if ((strcmp(task.username, username) == 0) && (task.taskId == taskId)) {
-            found = 1;
-            printf("\nTask ID\t\t\t: %03d", task.taskId);
-            printf("\nDatetime of Creation\t: ");
-            displayDatetime(task.datetime_of_creation);
-            displayTask(&task);
-            printf("\nConfirm Delete ?\n");
-            printf("[ 1 ] - Delete\n");
-            printf("[ 0 ] - Back\n");
-            int deleteChoice = getChoiceNum(1, 0);
-            if (deleteChoice) {
-                printf("Deleting task...");
-                continue;
-            };
+        if (strcmp(task.username, username) == 0) {
+            if (task.taskId == taskId) {
+                found = 1;
+                printf("\nTask ID\t\t\t: %03d", task.taskId);
+                printf("\nDatetime of Creation\t: ");
+                displayDatetime(task.datetime_of_creation);
+                displayTask(&task);
+                printf("\nConfirm Delete ?\n");
+                printf("[ 1 ] - Delete\n");
+                printf("[ 0 ] - Back\n");
+                int deleteChoice = getChoiceNum(1, 0);
+                if (deleteChoice) {
+                    printf("Deleting task...");
+                    continue;
+                };
+            } else {
+                if (task.taskId > taskId) {
+                    task.taskId--;
+                }
+            }
+            
         };
         fwrite(&task, sizeof(Task), 1, taskFileWriter);
     };
