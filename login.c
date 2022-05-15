@@ -51,6 +51,7 @@ int login ()
 
     printf("\nPlease Enter your login credentials below\n\n");
     printf("Username:\t");
+    // scanf and fgets 
     scanf("%s",username);
     fgets(username, 21, filePointer);
     printf("\nPassword:\t");
