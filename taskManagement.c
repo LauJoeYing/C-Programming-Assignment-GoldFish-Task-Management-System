@@ -423,6 +423,7 @@ int searchTask(char *username) {
     if (!found) {
         printf("\nNo record found. Add new task now :)\n");
     };
+    
     return 0;
 };
 
