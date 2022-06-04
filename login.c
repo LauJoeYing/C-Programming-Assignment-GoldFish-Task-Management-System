@@ -4,13 +4,15 @@
 #include <stdlib.h>
 #include "date.h"
 #include "dateValidation.c"
-#include "menu.c"
-#include "fileHandling.c"
 
-
-int userlogin();
 int login ();
-int registration ();
+int register_username();
+int register_password();
+int register_name();
+int register_contactNum();
+int register_dateOfBirth();
+int register_email();
+Account registration();
 
 // int main (void)
 // {
@@ -34,63 +36,54 @@ int registration ();
 
 int login ()
 {
-    char username[21],password[20];
+    char username[21], password[20];
     FILE *filePointer;
 
     filePointer = fopen("user.txt","r");
-    if (filePointer == NULL)
-    {
+    if (filePointer == NULL) {
         perror("Error at opening File!");
         exit(1);
     } else{
-    Account user;
-
-    printf("\nPlease Enter Your Login Credentials Below:\n\n");
-    printf("Username:\t");
-    // scanf and fgets 
-    scanf("%s",username);
-    fgets(username, 21, filePointer);
-    printf("\nPassword:\t");
-    scanf("%s",password);
-    fgets(password, 20, filePointer);
-
-    while(fread(&user, sizeof(Account), 1, filePointer))
-        {
-        if(strcmp(username, user.username) == 0 && strcmp(password, user.password) == 0)
-
-            {   
+        Account user;
+        printf("\nPlease Enter Your Login Credentials Below:\n\n");
+        printf("Username:\t");
+        // scanf and fgets 
+        scanf("%s", username);
+        fgets(username, 21, filePointer);
+        printf("\nPassword:\t");
+        scanf("%s", password);
+        fgets(password, 20, filePointer);
+        while(fread(&user, sizeof(Account), 1, filePointer)) {
+            if(!(strcmp(username, user.username)) && !(strcmp(password, user.password))) {   
                 printf("\nSuccessful Login\n, Welcome %s", user.username);
-            }
-        else 
-            {
+            } else {
                 printf("\nIncorrect Login Details\nPlease enter the correct credentials!\n");
                 continue;
             }
         }
-
-    fclose(filePointer);
-    return 0;
+        fclose(filePointer);
+        return 0;
     }
 }
 
 
 
 
-int registration()
+Account registration()
 {
-    char firstname[15];
-    Account user;
-
     printf("\n\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     printf("\n\n\t\tWelcome to New User Registration Page!\n\n");
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+
+    Account user;
     
-    register_name();
-    register_username();
-    register_password();
-    register_contact_num();
-    register_dob();
-    register_email();
+    register_username(user.username);
+    register_password(user.password);
+    register_name(user.name);
+    register_contactNum(user.contact_num);
+    register_dateOfBirth(user.dateOfBirth);
+    register_email(user.email);
+    user.userType = 'u';
 
     printf("\n--------------------------------------------------------------------------\n");
     printf("\nConfirming details...");
@@ -102,91 +95,111 @@ int registration()
     login();
 }
 
-
-int register_name(Account user)
+int register_username(char * usernameTarget)
 {
-    printf("\n--------------------------------------------------------------------------");
-    fflush(stdin);
-    printf("\nPlease Enter Your Name:\n");
-    scanf("%[^\n]s",user.name);
-    return 0;
-}
-
-int register_username(Account user)
-{
+    char username[21];
     printf("--------------------------------------------------------------------------");
     fflush(stdin);
     printf("\nPlease Enter Your New Username:\n");
-    scanf("%[^\n]s", user.username);
+    scanf("%[^\n]s", username);
+    strcpy(usernameTarget, username);
+
     return 0;
 }
 
-char * register_password(Account user)
+int register_password(char * passwordTarget)
 {
-    char user_password[21];
+    char password[21];
+    char confirmPassword[21];
     printf("--------------------------------------------------------------------------");
     while (1){
         fflush(stdin);
         printf("\nPlease Enter Your New Password (8-20 characters):\n");
-        scanf("%[^\n]s", user.password);
-        if (strlen(user.password)<8 || strlen( user.password)>20){
+        scanf("%[^\n]s", password);
+        if (strlen(password) < 8 || strlen(password) > 20){
             printf("\nInvalid Password! Please Ensure Your New Password have 8-20 Characters");
-            continue;}
+            continue;
+        }
         fflush(stdin);
         printf("\nPlease Enter Your New Password Again:\n");
-        scanf("%[^\n]s",user_password); 
+        scanf("%[^\n]s", confirmPassword); 
 
-        if (strcmp(user.password, user_password) != 0){
+        if(strcmp(confirmPassword, password)) {
             printf("\nInvalid Input! Please Ensure That You Have Entered the Same Password!");
             continue;
         }   
         
         printf("\nCorrect Password Format!\nCongrats! Your New Password has been Verified!");
-        return user_password;            
+        strcpy(passwordTarget, password);
+
+        return 0;            
     }
 }
 
-int register_contact_num(Account user)
+
+int register_name(char * nameTarget)
 {
+    char name[256];
     printf("\n--------------------------------------------------------------------------");
-    while (1){
     fflush(stdin);
-    printf("\nPlease Enter Your Contact Number (without'-'):");
-    scanf("%[^\n]s", user.contact_num);
-    if (checkIsNumber(user.contact_num)){
-        if (strlen(user.contact_num)<10 || strlen(user.contact_num)>11){
-            printf("\nInvalid Phone Number! Please Ensure Your Registered Phone Number have 10 or 11 digits!");
-            continue;
-        }   printf("\nCorrect Phone Number Format!\nCongrats!Your Phone Number has been Verified!");
+    printf("\nPlease Enter Your Name:\n");
+    scanf("%[^\n]s", name);
+    strcpy(nameTarget, name);
+
+    return 0;
+}
+
+int register_contactNum(char * contactNumTarget)
+{
+    char contactNum[11];
+    printf("\n--------------------------------------------------------------------------");
+    while(1) {
+        fflush(stdin);
+        printf("\nPlease Enter Your Contact Number (without'-'): \n60");
+        scanf("%[^\n]s", contactNum);
+        if(checkIsNumber(contactNum)) {
+            if (contactNum[1] != '1' && strlen(contactNum) < 9 || contactNum[1] == '1' && strlen(contactNum) > 10){
+                printf("\nInvalid Phone Number! Please Ensure Your Registered Phone Number have correct length!");
+                continue;
+            }
+            printf("\nCorrect Phone Number Format!\nCongrats! Your Phone Number has been Verified!");
+            strcpy(contactNumTarget, contactNum);
             break;
-    return 0;
-    }   
+        } else {
+            printf("\nInvalid Phone Number! Please Ensure Your Registered Phone Number contains only number!");
+            continue;
+        }   
     }
-}
 
-int register_dob(Account user)
-{
-    printf("\n--------------------------------------------------------------------------");
-    printf("\n\nDate of Birth-");
-    user.date_of_birth = dateValidation();
-    printf("Congrats! Your Date of Birth has been Verified!");
     return 0;
 }
 
-int register_email(Account user)
+int register_dateOfBirth(Date dateOfBirthTarget)
 {
     printf("\n--------------------------------------------------------------------------");
-    while (1){
+    printf("\n\nDate of Birth\n");
+    Date dateOfBirth = dateValidation();
+    printf("Congrats! Your Date of Birth has been Verified!");
+    dateOfBirthTarget = dateOfBirth;
+    return 0;
+}
+
+int register_email(char * emailTarget)
+{
+    char email[321];
+    printf("\n--------------------------------------------------------------------------");
+    while(1) {
         printf("\n\nPlease Enter Your Email:\n");
         fflush(stdin);
-        scanf("%[^\n]s",user.email);
-        if (strstr(user.email,"@") && strstr(user.email,".com")){   //To Check the Occurance of '@' and '.com'
+        scanf("%[^\n]s", email);
+        if(strstr(email, "@") && strstr(email, ".com")) {   //To Check the Occurrence of '@' and '.com'
             printf("Congrats! Your Email has been Verified!");
+            strcpy(emailTarget, email);
             break;
         }   
         printf("Wrong Email Format! Please Try Again!");
         continue;
-    return 0;
-
     }
+
+    return 0;
 }

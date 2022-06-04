@@ -14,6 +14,7 @@ int getUserData();
 int changePassword(char * username, char * password);
 
 int main() {
+    registration();
     Account user = loginUser();
     // registerUser(user);
     getUserData();
@@ -102,7 +103,7 @@ int changePassword(char * username, char * password) {
     
 
     fflush(stdin);
-    newPassword = register_password();
+    register_password(newPassword);
      ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     scanf("%[^\n]s", newPassword);
     
