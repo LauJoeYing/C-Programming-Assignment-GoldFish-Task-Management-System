@@ -1,1 +1,1 @@
-Account user = loginUser();
+register_password

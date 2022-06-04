@@ -79,9 +79,11 @@ int addTask(char *username) {
     Task *tasks;
     int numberOfTasks;
 
-    printf("\n===*===*===*== Welcome to Add Task Section ==*===*===*===*");
-
-    printf("\nEnter the number of new tasks to be added: ");
+    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    printf("\n\n\tWelcome to Add Task Section\n\n");
+    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    
+    printf("\nPlease Enter the number of new tasks to be added: ");
     numberOfTasks = getChoiceNum(10, 0);
 
     // if (!numberOfTasks)
