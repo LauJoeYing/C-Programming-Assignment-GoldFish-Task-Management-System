@@ -5,6 +5,8 @@
 #include "account.h"
 #include "fileHandling.c"
 #include "menu.c"
+#include "login.c"
+
 
 Account loginUser();
 int registerUser(Account user);
@@ -12,6 +14,7 @@ int getUserData();
 int changePassword(char * username, char * password);
 
 int main() {
+    registration();
     Account user = loginUser();
     // registerUser(user);
     getUserData();
@@ -37,7 +40,7 @@ Account loginUser() {
     int found = 0;
 
     do {
-        char username[256], password[256];
+        char username[256], password[256];    
         Account user;
         FILE *taskFileReader = checkFileExistence("usertry.txt", "r", 0);    
         fflush(stdin);
@@ -71,7 +74,7 @@ int getUserData() {
     while(fread(&user, sizeof(Account), 1, fileReader)) {
         printf ("username = %s password = %s\n", user.username, user.password);
     }
-   fclose(fileReader);
+    fclose(fileReader);
 
    return 0;
 };
@@ -95,12 +98,36 @@ int changePassword(char * username, char * password) {
             printf("\nIncorrect Password! Please Try Again!");
         };
     } while (!passwordCorrect);
+}
+    
+
+int changePassword(char * username, char * password) {
+    Account user;
+    char confirmPassword[256], * newPassword;
+    FILE *taskFileReader, *taskFileWriter;
+    taskFileReader = checkFileExistence("usertry.txt", "r", 0); 
+    taskFileWriter = fopen("temp_usertry.txt", "w");
+    int passwordCorrect, found = 0;
+    
+    do {
+        fflush(stdin);
+        printf("\nPlease Enter Your Current Password:\t");
+        scanf("%[^\n]s", confirmPassword);
+        if (strcmp(confirmPassword, password) == 0) {
+            passwordCorrect ++;
+            break;
+        } else {
+            printf("\nIncorrect Password! Please Try Again!");
+            continue;
+        };
+    } while (!passwordCorrect);
     
 
     fflush(stdin);
-    printf("\nEnter new password to change : ");
+    register_password(newPassword);
+     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     scanf("%[^\n]s", newPassword);
-
+    
     while(fread(&user, sizeof(Account), 1, taskFileReader)) {
         if (strcmp(user.username, username) == 0) {
             strcpy(user.password, newPassword); 

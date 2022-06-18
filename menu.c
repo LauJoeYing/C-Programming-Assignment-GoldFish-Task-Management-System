@@ -1,11 +1,11 @@
-#include<stdio.h> // define the header file 
-#include<string.h>
-#include<stdbool.h>  
-#include<ctype.h>
-#include<stdlib.h>
+#include <stdio.h> // define the header file 
+#include <string.h>
+#include <stdbool.h>  
+#include <ctype.h>
+#include <stdlib.h>
 
-void user_menu();
-void admin_menu();
+int user_menu();
+int admin_menu();
 int getChoiceNum(int maxChoice, int minChoice);
 int checkIsNumber(char * target);
 
@@ -14,19 +14,24 @@ int checkIsNumber(char * target);
 //     getChoiceNum(6, 0);
 // }
 
-void user_menu() {
+int user_menu() {
     printf("[ 1 ] - Add New Task\n");
-    printf("[ 2 ] - Search and View Task\n");
-    printf("[ 3 ] - Update Task");
-    printf("[ 4 ] - Delete Task\n");
-    printf("[ 5 ] - Change Password\n");
-    printf("[ X ] - Exit Program\n");
+    printf("[ 2 ] - Sort and View Tasks\n");
+    printf("[ 3 ] - View All Tasks\n");
+    printf("[ 4 ] - Update Task\n");
+    printf("[ 5 ] - Delete Task\n");
+    printf("[ 6 ] - Search Task\n");
+    printf("[ 7 ] - Change Password\n");
+    printf("[ 8 ] - Edit Personal Info\n");
+    printf("[ X ] - Exit\n");
 } 
 
-void admin_menu() {
+int admin_menu() {
     printf("[ 1 ] - Recover User's Account\n");
+    printf("[ 2 ] - Search User Tasks");
+    printf("[ 3 ] - View All User Tasks");
     printf("[ 2 ] - Update Admin Details\n");
-    printf("[ 3 ] - Change Admin Account Password\n");
+    printf("[ 3 ] - Change Admin Password\n");
     printf("[ X ] - Exit\n");
 }
 
@@ -66,6 +71,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
     };
 };
 
+
 int checkIsNumber(char * target) {
     int targetLength = strlen(target), validatedLength = 0;
     for (int i = 0; i < strlen(target); i++) {
@@ -78,6 +84,7 @@ int checkIsNumber(char * target) {
     };
     return 0;
 };
+
 
 int toLower(char *str) {
     for(int i = 0; str[i]; i++){

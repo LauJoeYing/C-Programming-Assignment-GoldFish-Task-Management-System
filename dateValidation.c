@@ -12,7 +12,7 @@ Date dateValidation() {
         const char *delimiter = "/";
         int day, month, year;
         fflush(stdin);
-        printf("Please enter the date in (DD/MM/YYYY)\t: ");
+        printf("Please enter the date in (DD/MM/YYYY):\n");
         scanf("%[^\n]s", dateInput);
         strcpy(dateInputCopy, dateInput);
         if (strlen(dateInput) >= 8 && strlen(dateInput) <= 10) {

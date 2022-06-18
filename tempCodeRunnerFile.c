@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #include <stdio.h>
 #include <string.h>
@@ -88,3 +89,6 @@ int main() {
     printNewPassword("angniuniu");
 }
 
+=======
+Appender
+>>>>>>> 49e17c3e24725a1315655b34801ba2337bf06b8d
