@@ -25,6 +25,7 @@ int update_details() {
         int adminChoice = getChoiceNum(4, 0);
         switch (adminChoice) {
             case 1:
+                recoverUserAcct();
                 break;
             case 2:
                 break;
@@ -46,7 +47,7 @@ int recoverUserAcct() {
     char searchKey[21], searchSource[21], lastSixDigits[7];
     Account acct;
     char lastSixDigit[7];
-    FILE *acctFileReader;
+    FILE *acctFileReader, *acctFileWriter;
     int found = 0;
 
     fflush(stdin);
@@ -54,38 +55,49 @@ int recoverUserAcct() {
     scanf("%[^\n]s", searchKey);
     toLower(searchKey);
 
-    acctFileReader = checkFileExistence("user.txt", "r", 0);
+    acctFileReader = checkFileExistence("usertry.txt", "r", 0);
+    acctFileWriter = fopen("temp_user_try.txt", "w");
     while(fread(&acct, sizeof(Account), 1, acctFileReader)) {
         strcpy(searchSource, acct.username);
         toLower(searchSource);
         if (strcmp (searchSource, searchKey) == 0 ) {
+            found ++;
             printf("\nRecovering %c's account...", acct.name);
-            sprintf(lastSixDigit, acct.username + strlen(acct.contact_num) -6);
+            sprintf(lastSixDigits, acct.contact_num + strlen(acct.contact_num) -6);
             char newPass[50];
-            strcpy()
+            strcpy(newPass, acct.username);
+            strcat(newPass, lastSixDigits);
+
+            printf("Congratulations! The Account Has Been Recovered!\n");
+            printf("The New Password of %s is %s", acct.username, newPass);
         };
+        fwrite(&acct, sizeof(Account), 1, acctFileWriter);
     };
     fclose(acctFileReader);
+    fclose(acctFileWriter);
+    printf("\nDone!\n");
+    remove("usertry.txt");
+    rename("temp_user_try.txt", "usertry.txt");
     if (!found) {
         printf("\nNo Username Found. Please Ensure Your Entered A Correct Username.");
     };
     return 0;
 };
 
-int printNewPassword(char*username) {
-    char num[] = "60126900655";
-    char last6[7];
-    sprintf(last6, num + strlen(num) - 6);
-    char newPass[50];
-    strcpy(newPass, username);
-    strcat(newPass, last6);
-    printf("%s\n", last6);
-    printf("%s", newPass);
+// int printNewPassword(char*username) {
+//     char num[] = "60126900655";
+//     char last6[7];
+//     sprintf(last6, num + strlen(num) - 6);
+//     char newPass[50];
+//     strcpy(newPass, username);
+//     strcat(newPass, last6);
+//     printf("%s\n", last6);
+//     printf("%s", newPass);
 
-    return 0;
-}
+//     return 0;
+// }
 
 int main() {
-    printNewPassword("angniuniu");
+    recoverUserAcct();
 }
 
