@@ -18,11 +18,15 @@ struct User_data {
 int login ();
 int registration ();
 
+
 int main (void)
 {
     int option;
-    printf("Welcome to Goldfish Task Management System : )");
+    printf("\n***********************************************\n");
+    printf("Welcome to Goldfish Task Management System!\n");
+    printf("***********************************************\n");
     printf("\n[ 1 ] - Register\n[ 2 ] - Login\n\n");
+    process_num();
     scanf("%d",&option);
 
     switch (option){
@@ -32,16 +36,16 @@ int main (void)
 
         case 2:
             system("CLS");
-            login();
+            login_usertype();
     }         
 }
+
 
 int login ()
 {
     char username[21],password[20];
     FILE *filePointer;
-
-    filePointer = fopen("user.txt","r");
+    filePointer = fopen("usertry.txt","r");
     if (filePointer == NULL)
     {
         perror("Error at opening File!");
@@ -64,6 +68,7 @@ int login ()
 
             {   
                 printf("\nSuccessful Login\n, Welcome %s",user.username);
+
             }
         else 
             {

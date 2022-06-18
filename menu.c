@@ -16,19 +16,17 @@ int checkIsNumber(char * target);
 
 void user_menu() {
     printf("[ 1 ] - Add New Task\n");
-    printf("[ 2 ] - Update or Delete Task\n");
-    printf("[ 3 ] - Search and View Task\n");
-    printf("[ 4 ] - Generate Productivity Report\n");
+    printf("[ 2 ] - Search and View Task\n");
+    printf("[ 3 ] - Update Task");
+    printf("[ 4 ] - Delete Task\n");
     printf("[ 5 ] - Change Password\n");
-    printf("[ 6 ] - Contact Admin\n");
-    printf("[ X ] - Exit\n");
+    printf("[ X ] - Exit Program\n");
 } 
 
 void admin_menu() {
-    printf("[ 1 ] - Check Message From Users\n");
-    printf("[ 2 ] - Recover User's Account\n");
-    printf("[ 3 ] - Update Admin Details\n");
-    printf("[ 4 ] - Change Password\n");
+    printf("[ 1 ] - Recover User's Account\n");
+    printf("[ 2 ] - Update Admin Details\n");
+    printf("[ 3 ] - Change Admin Account Password\n");
     printf("[ X ] - Exit\n");
 }
 

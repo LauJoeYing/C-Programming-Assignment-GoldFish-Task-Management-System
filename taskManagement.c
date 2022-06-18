@@ -38,14 +38,16 @@ int main() {
     char username[] = "angniuniu";
     int continueTaskManagement = 1;
     do {
-        printf("\nTask Management");
+        printf("\n===================================");
+        printf("\n\tTask Management");
+        printf("\n===================================");
         printf("\n[ 1 ] - View All Tasks");
         printf("\n[ 2 ] - Add Task");
         printf("\n[ 3 ] - Edit Task");
         printf("\n[ 4 ] - Search Task");
         printf("\n[ 5 ] - Sort Tasks");
         printf("\n[ 6 ] - Delete Task");
-        printf("\n[ 0 ] - Back");
+        printf("\n[ 0 ] - Back To the Main Page");
         int taskManagementChoice = getChoiceNum(6, 0);
         switch (taskManagementChoice) {
             case 1:
@@ -198,10 +200,13 @@ int setTaskDeadline(Task *task) {
 int confirmTask(char *username, Task *task) {
     int continueLoop = 1;
     do {
-        printf("\nTask Confirmation");
+        
+        printf("\n===================================");
+        printf("\n\tTask Confirmation");
+        printf("\n===================================");
         displayTask(task);
         int confirmChoice;
-        printf("\nConfirm task details? ");
+        printf("\n--- Confirm task details? ---");
         printf("\n[ 1 ] - Confirm");
         printf("\n[ 2 ] - Modify\n");
         confirmChoice = getChoiceNum(2, 1);
@@ -210,7 +215,7 @@ int confirmTask(char *username, Task *task) {
                 continueLoop = 0;
                 break;
             case 2:
-                printf("\nPlease Select the Task Field to be Modified: ");
+                printf("\n-- Please Select the Task Field to be Modified: --");
                 printf("\n[ 1 ] - Category");
                 printf("\n[ 2 ] - Title");
                 printf("\n[ 3 ] - Description");
@@ -389,7 +394,7 @@ int editTask(char *username) {
     remove("task_recordtry.txt");
     rename("temp_task_recordtry.txt", "task_recordtry.txt");
     if (!found) {
-        printf("\nNo record found with the task id. Please try again.\n");
+        printf("\nNo record found with the task id. Please try again!\n");
     };
     return 0;
 };
@@ -421,13 +426,13 @@ int searchTask(char *username) {
     fclose(taskFileReader);
     printf("\nNumber of Task(s) Found : %i\n", found);
     if (!found) {
-        printf("\nNo record found. Add new task now :)\n");
+        printf("\nNo record found. Add new task now:\n");
     };
     return 0;
 };
 
 int sortTask() {
-    printf("\nSort By\n");
+    printf("\n--- Sort By ---\n");
     printf("\n[ 1 ] - Title");
     printf("\n[ 2 ] - Status");
     printf("\n[ 3 ] - Priority");
@@ -438,7 +443,7 @@ int sortTask() {
     int sortChoice = getChoiceNum(5, 0);
     int orderChoice;
     if (sortChoice) {
-        printf("\nOrder By\n");
+        printf("\n--- Order By ---\n");
         printf("\n[ 1 ] - Descending");
         printf("\n[ 2 ] - Ascending");
         orderChoice = getChoiceNum(2, 1);
@@ -607,7 +612,7 @@ int deleteTask(char *username) {
     remove("task_recordtry.txt");
     rename("temp_task_recordtry.txt", "task_recordtry.txt");
     if (!found) {
-        printf("\nNo record found with the task id. Please try again.\n");
+        printf("\nNo record found with the task id. Please try again!\n");
     };
     return 0;
 };

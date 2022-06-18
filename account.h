@@ -8,6 +8,7 @@ typedef struct Accounts {
     char contact_num[21];
     char date_of_birth[11];
     char email[321];
+    char userType;
 } Account;
 
 #endif
