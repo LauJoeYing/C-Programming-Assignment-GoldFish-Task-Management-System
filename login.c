@@ -25,7 +25,7 @@ int main (void)
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     printf("\n[ 1 ] - Register\n[ 2 ] - Login\n\n");
     
-    printf("Please Enter Your Choice Number:\t");
+    printf("Please Enter Your Choice Number:\t\n");
     scanf("%d",&option);
 
     switch (option){
@@ -49,6 +49,9 @@ int login ()
         exit(1);
     } else{
         Account user;
+        printf("\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        printf("\n\n\t\t\t   Login Page\n\n");
+        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         printf("\nPlease Enter Your Login Credentials Below:\n\n");
         printf("Username:\t");
         // scanf and fgets 
@@ -58,7 +61,8 @@ int login ()
         scanf("%s", password);
         fgets(password, 20, filePointer);
         while(fread(&user, sizeof(Account), 1, filePointer)) {
-            if(!(strcmp(username, user.username)) && !(strcmp(password, user.password))) {   
+            if(!(strcmp(username, user.username)) && !(strcmp(password, user.password))) {  
+
                 printf("\nSuccessful Login\n, Welcome %s", user.username);
             } else {
                 printf("\nIncorrect Login Details\nPlease enter the correct credentials!\n");
@@ -92,10 +96,11 @@ Account registration()
 
     printf("\n--------------------------------------------------------------------------\n");
     printf("\nConfirming details...");
-    printf("\n\nWelcome, %s : D !\n\n",user.name);
+    printf("\n\nWelcome, %s :)\n",user.name);
     fwrite(&user, sizeof(Account), 1, fileWriter);
     fclose(fileWriter);
-    printf("\nRegistration Successful!\n");
+    printf("Registration Successful!\n");
+    printf("\n--------------------------------------------------------------------------\n\n\n");
     login();
 }
 
@@ -104,7 +109,7 @@ int register_username(char * usernameTarget)
     int validated = 0;
     do {
         char username[21], usernameCopy[21];
-        printf("--------------------------------------------------------------------------");
+        printf("\n--------------------------------------------------------------------------\n\n");
         fflush(stdin);
         printf("\nPlease Enter Your New Username:\n");
         scanf("%[^\n]s", username);
@@ -134,7 +139,7 @@ int register_password(char * passwordTarget)
 {
     char password[21];
     char confirmPassword[21];
-    printf("--------------------------------------------------------------------------");
+    printf("\n--------------------------------------------------------------------------\n");
     while (1){
         fflush(stdin);
         printf("\nPlease Enter Your New Password (8-20 characters):\n");
@@ -163,7 +168,7 @@ int register_password(char * passwordTarget)
 int register_name(char * nameTarget)
 {
     char name[256];
-    printf("\n--------------------------------------------------------------------------");
+    printf("\n--------------------------------------------------------------------------\n");
     fflush(stdin);
     printf("\nPlease Enter Your Name:\n");
     scanf("%[^\n]s", name);
@@ -175,7 +180,7 @@ int register_name(char * nameTarget)
 int register_contactNum(char * contactNumTarget)
 {
     char contactNum[11];
-    printf("\n--------------------------------------------------------------------------");
+    printf("\n--------------------------------------------------------------------------\n");
     while(1) {
         fflush(stdin);
         printf("\nPlease Enter Your Contact Number (without'-'): \n60");
