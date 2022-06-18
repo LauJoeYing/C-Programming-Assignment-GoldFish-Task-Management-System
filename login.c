@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "date.h"
 #include "dateValidation.c"
+#include "account.h"
+#include "menu.c"
+#include "fileHandling.c"
 
 int login ();
 int register_username();
@@ -14,25 +17,25 @@ int register_dateOfBirth();
 int register_email();
 Account registration();
 
-// int main (void)
-// {
-//     int option;
-//     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-//     printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
-//     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-//     printf("\n[ 1 ] - Register\n[ 2 ] - Login\n\n");
+int main (void)
+{
+    int option;
+    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
+    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+    printf("\n[ 1 ] - Register\n[ 2 ] - Login\n\n");
     
-//     printf("Please Enter Your Choice Number:\t");
-//     scanf("%d",&option);
+    printf("Please Enter Your Choice Number:\t");
+    scanf("%d",&option);
 
-//     switch (option){
-//         case 1:
-//             registration();
+    switch (option){
+        case 1:
+            registration();
 
-//         case 2:
-//             login();
-//     }         
-// }
+        case 2:
+            login();
+    }         
+}
 
 
 int login ()
@@ -72,6 +75,7 @@ int login ()
 
 Account registration()
 {
+    FILE * fileWriter = checkFileExistence("user.txt", "w", 0);
     printf("\n\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     printf("\n\n\t\tWelcome to New User Registration Page!\n\n");
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -89,7 +93,6 @@ Account registration()
     printf("\n--------------------------------------------------------------------------\n");
     printf("\nConfirming details...");
     printf("\n\nWelcome, %s : D !\n\n",user.name);
-    FILE * fileWriter = checkFileExistence("user.txt","w",0);
     fwrite(&user, sizeof(Account), 1, fileWriter);
     fclose(fileWriter);
     printf("\nRegistration Successful!\n");
@@ -98,12 +101,31 @@ Account registration()
 
 int register_username(char * usernameTarget)
 {
-    char username[21];
-    printf("--------------------------------------------------------------------------");
-    fflush(stdin);
-    printf("\nPlease Enter Your New Username:\n");
-    scanf("%[^\n]s", username);
-    strcpy(usernameTarget, username);
+    int validated = 0;
+    do {
+        char username[21], usernameCopy[21];
+        printf("--------------------------------------------------------------------------");
+        fflush(stdin);
+        printf("\nPlease Enter Your New Username:\n");
+        scanf("%[^\n]s", username);
+        strcpy(usernameCopy, username);
+        toLower(usernameCopy);
+
+        Account existingUser;
+        FILE *userFileReader;
+        userFileReader = checkFileExistence("usertry.txt", "r", 0);    
+        while(fread(&existingUser, sizeof(Account), 1, userFileReader)) {
+            toLower(existingUser.username);
+            if(strcmp(existingUser.username, usernameCopy) == 0) {
+                printf("\nUsername \"%s\" is occupied! Please use another username.", username);
+                continue;
+            }
+            validated = 1;
+            break;
+        };
+        fclose(userFileReader);
+        strcpy(usernameTarget, username);
+    } while (!validated);
 
     return 0;
 }
