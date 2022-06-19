@@ -1,233 +1,151 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "date.h"
-#include "dateValidation.c"
+#include "menu.h"
+#include "task.h"
 #include "account.h"
 #include "menu.c"
+#include "login.c"
 #include "fileHandling.c"
 
-int login ();
-int register_username();
-int register_password();
-int register_name();
-int register_contactNum();
-int register_dateOfBirth();
-int register_email();
-Account registration();
+int admPage(char * username);
+int recoverUserAcct();
+int updateAdmDetail(char*username);
+int displayAdmDetail(Account* acct);
 
-int main (void)
-{
-    int option;
-    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
-    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    printf("\n[ 1 ] - Register\n[ 2 ] - Login\n\n");
-    
-    printf("Please Enter Your Choice Number:\t\n");
-    scanf("%d",&option);
 
-    switch (option){
-        case 1:
-            registration();
 
-        case 2:
-            login();
-    }         
+int main() {
+    updateAdmDetail("niuniu");
 }
 
 
-int login ()
-{
-    char username[21], password[20];
-    FILE *filePointer;
-
-    filePointer = fopen("user.txt","r");
-    if (filePointer == NULL) {
-        perror("Error at opening File!");
-        exit(1);
-    } else{
-        Account user;
-        printf("\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        printf("\n\n\t\t\t\tLogin Page\n\n");
-        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        printf("\nPlease Enter Your Login Credentials Below:\n\n");
-        printf("Username:\t");
-        // scanf and fgets 
-        scanf("%s", username);
-        fgets(username, 21, filePointer);
-        printf("\nPassword:\t");
-        scanf("%s", password);
-        fgets(password, 20, filePointer);
-        while(fread(&user, sizeof(Account), 1, filePointer)) {
-            if(!(strcmp(username, user.username)) && !(strcmp(password, user.password))) {  
-
-                printf("\nSuccessful Login\n, Welcome %s", user.username);
-            } else {
-                printf("\nIncorrect Login Details\nPlease enter the correct credentials!\n");
-                continue;
-            }
-        }
-        fclose(filePointer);
-        return 0;
-    }
-}
-
-
-
-
-Account registration()
-{
-    FILE * fileWriter = checkFileExistence("user.txt", "w", 0);
-    printf("\n\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    printf("\n\n\t\tWelcome to New User Registration Page!\n\n");
-    printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-
-    Account user;
-    
-    register_username(user.username);
-    register_password(user.password);
-    register_name(user.name);
-    register_contactNum(user.contact_num);
-    register_dateOfBirth(user.dateOfBirth);
-    register_email(user.email);
-    user.userType = 'u';
-
-    printf("\n--------------------------------------------------------------------------\n");
-    printf("\nConfirming details...");
-    printf("\n\nWelcome, %s :)\n",user.name);
-    fwrite(&user, sizeof(Account), 1, fileWriter);
-    fclose(fileWriter);
-    printf("Registration Successful!\n");
-    printf("\n--------------------------------------------------------------------------\n\n\n");
-    login();
-}
-
-int register_username(char * usernameTarget)
-{
-    int validated = 0;
+int admPage(char * username) {
+    int continueAdminChoice = 1;
     do {
-        char username[21], usernameCopy[21];
-        printf("\n--------------------------------------------------------------------------\n\n");
-        fflush(stdin);
-        printf("\nPlease Enter Your New Username:\n");
-        scanf("%[^\n]s", username);
-        strcpy(usernameCopy, username);
-        toLower(usernameCopy);
+        printf("\n===================================");
+        printf("\n\tWelcome to Admin Page!\n");
+        printf("\n===================================");
+        printf("\n[ 1 ] - Recover User's Account");
+        printf("\n[ 2 ] - Update Admin Details");
+        printf("\n[ 3 ] - View All Tasks");
+        printf("\n[ 4 ] - Change Admin Account Password");
+        printf("[ 0 ] - Back to the Main Page\n");
 
-        Account existingUser;
-        FILE *userFileReader;
-        userFileReader = checkFileExistence("usertry.txt", "r", 0);    
-        while(fread(&existingUser, sizeof(Account), 1, userFileReader)) {
-            toLower(existingUser.username);
-            if(strcmp(existingUser.username, usernameCopy) == 0) {
-                printf("\nUsername \"%s\" is occupied! Please use another username.", username);
-                continue;
-            }
-            validated = 1;
-            break;
-        };
-        fclose(userFileReader);
-        strcpy(usernameTarget, username);
-    } while (!validated);
-
-    return 0;
-}
-
-int register_password(char * passwordTarget)
-{
-    char password[21];
-    char confirmPassword[21];
-    printf("\n--------------------------------------------------------------------------\n");
-    while (1){
-        fflush(stdin);
-        printf("\nPlease Enter Your New Password (8-20 characters):\n");
-        scanf("%[^\n]s", password);
-        if (strlen(password) < 8 || strlen(password) > 20){
-            printf("\nInvalid Password! Please Ensure Your New Password have 8-20 Characters");
-            continue;
+        int adminChoice = getChoiceNum(4, 0);
+        switch (adminChoice) {
+            case 1:
+                recoverUserAcct();
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 0:
+                continueAdminChoice = 0;
+                break;
         }
-        fflush(stdin);
-        printf("\nPlease Enter Your New Password Again:\n");
-        scanf("%[^\n]s", confirmPassword); 
+    } while (continueAdminChoice);
 
-        if(strcmp(confirmPassword, password)) {
-            printf("\nInvalid Input! Please Ensure That You Have Entered the Same Password!");
-            continue;
-        }   
-        
-        printf("\nCorrect Password Format!\nCongrats! Your New Password has been Verified!");
-        strcpy(passwordTarget, password);
-
-        return 0;            
-    }
-}
+    return 0;
+};
 
 
-int register_name(char * nameTarget)
-{
-    char name[256];
-    printf("\n--------------------------------------------------------------------------\n");
+int recoverUserAcct() {
+    char searchKey[21], searchSource[21], lastSixDigits[7];
+    Account acct;
+    char lastSixDigit[7];
+    FILE *acctFileReader, *acctFileWriter;
+    int found = 0;
+
     fflush(stdin);
-    printf("\nPlease Enter Your Name:\n");
-    scanf("%[^\n]s", name);
-    strcpy(nameTarget, name);
+    printf("\nPlease Enter the Account Username that You Would Like to Recover:\t");
+    scanf("%[^\n]s", searchKey);
+    toLower(searchKey);
 
+    acctFileReader = checkFileExistence("usertry.txt", "r", 0);
+    acctFileWriter = fopen("temp_user_try.txt", "w");
+    while(fread(&acct, sizeof(Account), 1, acctFileReader)) {
+        strcpy(searchSource, acct.username);
+        toLower(searchSource);
+        if (strcmp (searchSource, searchKey) == 0 ) {
+            found ++;
+            printf("\nRecovering %c's account...", acct.name);
+            sprintf(lastSixDigits, acct.contactNum + strlen(acct.contactNum) -6);
+            char newPass[50];
+            strcpy(newPass, acct.username);
+            strcat(newPass, lastSixDigits);
+
+            printf("Congratulations! The Account Has Been Recovered!\n");
+            printf("The New Password of %s is %s", acct.username, newPass);
+        };
+        fwrite(&acct, sizeof(Account), 1, acctFileWriter);
+    };
+    fclose(acctFileReader);
+    fclose(acctFileWriter);
+    printf("\nDone!\n");
+    remove("usertry.txt");
+    rename("temp_user_try.txt", "usertry.txt");
+    if (!found) {
+        printf("\nNo Username Found. Please Ensure Your Entered A Correct Username.");
+    };
+    return 0;
+};
+
+
+int updateAdmDetail(char*username) {
+    Account acct;
+    FILE *acctFileReader, *acctFileWriter;
+    acctFileReader = checkFileExistence("usertry.txt", "r", 0);
+    acctFileWriter = fopen("temp_usertry.txt", "w");
+    while (fread(&acct, sizeof(Account), 1, acctFileReader)) {
+        displayAdmDetail(&acct);
+
+    };
+    fwrite (&acct, sizeof(Account), 1, acctFileWriter);
+    fclose(acctFileReader);
+    fclose(acctFileWriter);
+    printf("\nDone!\n");
+    remove("usertry.txt");
+    rename("temp_usertry.txt", "usertry.txt");
+    
     return 0;
 }
 
-int register_contactNum(char * contactNumTarget)
-{
-    char contactNum[11];
-    printf("\n--------------------------------------------------------------------------\n");
-    while(1) {
-        fflush(stdin);
-        printf("\nPlease Enter Your Contact Number (without'-'): \n60");
-        scanf("%[^\n]s", contactNum);
-        if(checkIsNumber(contactNum)) {
-            if (contactNum[1] != '1' && strlen(contactNum) < 9 || contactNum[1] == '1' && strlen(contactNum) > 10){
-                printf("\nInvalid Phone Number! Please Ensure Your Registered Phone Number have correct length!");
-                continue;
-            }
-            printf("\nCorrect Phone Number Format!\nCongrats! Your Phone Number has been Verified!");
-            strcpy(contactNumTarget, contactNum);
+
+int displayAdmDetail(Account* acct) {
+    printf("\n[ 1 ]- Username\t\t: %s", acct -> username);
+    printf("\n[ 2 ]- Admin Name\t\t: %s", acct -> name);
+    printf("\n[ 3 ]- Contact Number\t\t: %s", acct -> contactNum);
+    printf("\n[ 4 ]- Date of Birth\t\t: %s", acct -> dateOfBirth);
+    printf("\n[ 5 ]- Email Address\t\t: %s", acct -> email);
+    fflush(stdin);
+    int editChoice = getChoiceNum(5, 1);
+    switch (editChoice) {
+        case 1:
+            register_username(acct->username);
             break;
-        } else {
-            printf("\nInvalid Phone Number! Please Ensure Your Registered Phone Number contains only number!");
-            continue;
-        }   
-    }
-
-    return 0;
-}
-
-int register_dateOfBirth(Date dateOfBirthTarget)
-{
-    printf("\n--------------------------------------------------------------------------");
-    printf("\n\nDate of Birth\n");
-    Date dateOfBirth = dateValidation();
-    printf("Congrats! Your Date of Birth has been Verified!");
-    dateOfBirthTarget = dateOfBirth;
-    return 0;
-}
-
-int register_email(char * emailTarget)
-{
-    char email[321];
-    printf("\n--------------------------------------------------------------------------");
-    while(1) {
-        printf("\n\nPlease Enter Your Email:\n");
-        fflush(stdin);
-        scanf("%[^\n]s", email);
-        if(strstr(email, "@") && strstr(email, ".com")) {   //To Check the Occurrence of '@' and '.com'
-            printf("Congrats! Your Email has been Verified!");
-            strcpy(emailTarget, email);
+        case 2:
+            register_name(acct->name);
             break;
-        }   
-        printf("Wrong Email Format! Please Try Again!");
-        continue;
-    }
+        case 3:
+            register_contactNum(acct->contactNum);
+            break;
+        case 4:
+            register_dateOfBirth(acct->dateOfBirth);
+            break;
+        case 5:
+            register_email(acct->email);
+            break;
 
+    }
+    
     return 0;
-}
+};
+
+
+
+

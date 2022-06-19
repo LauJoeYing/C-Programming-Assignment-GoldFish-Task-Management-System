@@ -26,3 +26,4 @@ FILE *checkFileExistence(char *fileName, char *fileHandling_method, int createFi
         };
     };
 };
+

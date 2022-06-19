@@ -1,4 +1,4 @@
-username | password | name | contact_num | registered_email
+username | password | name | contactNum | registered_email
 ADMIN1 | ADMIN1 | LAU JOE YING | 60183626989 | joeying0712@gmail.com
 ADMIN2 | ADMIN2 | RAMESH NIJHAR | 60126905485 | leon88@yahoo.com
 ADMIN3 | ADMIN3 | QUAK SOON BEN | 60183626989 | charles0304@gmail.com

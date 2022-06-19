@@ -7,6 +7,7 @@
 #include "account.h"
 #include "menu.c"
 #include "fileHandling.c"
+#include "admin.c"
 
 int login ();
 int register_username();
@@ -17,7 +18,7 @@ int register_dateOfBirth();
 int register_email();
 Account registration();
 
-int main (void)
+int welcomePage(void)
 {
     int option;
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
@@ -89,7 +90,7 @@ Account registration()
     register_username(user.username);
     register_password(user.password);
     register_name(user.name);
-    register_contactNum(user.contact_num);
+    register_contactNum(user.contactNum);
     register_dateOfBirth(user.dateOfBirth);
     register_email(user.email);
     user.userType = 'u';

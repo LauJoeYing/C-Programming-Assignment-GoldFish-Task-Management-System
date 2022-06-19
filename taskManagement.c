@@ -167,10 +167,6 @@ int setTaskStatusCode(Task *task) {
     printf("\n[ 3 ] - Done");
     printf("\n[ 4 ] - Canceled\n");
 
-    // status_code 1 = Not Started
-    // status_code 2 = In Progress
-    // status_code 3 = Done
-    // status_code 4 = Canceled
     task -> status_code = getChoiceNum(4, 1);
 
     return 0;
@@ -311,6 +307,7 @@ int readAllTask() {
         displayTask(&task);
     };
     fclose(taskFileReader);
+    
     return 0;
 };
 
@@ -381,7 +378,7 @@ int editTask(char *username) {
     taskFileWriter = fopen("temp_task_recordtry.txt", "w");   
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         if ((strcmp(task.username, username) == 0) && (task.taskId == taskId)) {
-            found = 1;
+            found++;
             printf("\nTask ID\t\t\t: %03d", task.taskId);
             printf("\nDatetime of Creation\t: ");
             displayDatetime(task.datetime_of_creation);

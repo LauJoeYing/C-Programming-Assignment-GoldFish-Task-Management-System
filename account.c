@@ -98,7 +98,7 @@ int changePassword(char * username, char * password) {
             printf("\nIncorrect Password! Please Try Again!");
         };
     } while (!passwordCorrect);
-}
+    
     
 
 int changePassword(char * username, char * password) {
