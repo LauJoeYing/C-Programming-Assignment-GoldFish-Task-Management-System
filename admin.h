@@ -15,5 +15,4 @@ int recoverUserAcct();
 int updateAdmDetail(char *username);
 int displayAdmDetail(Account acct);
 
-
 #endif
