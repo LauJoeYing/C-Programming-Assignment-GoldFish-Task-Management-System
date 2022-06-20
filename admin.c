@@ -55,7 +55,7 @@ int recoverUserAcct() {
     scanf("%[^\n]s", searchKey);
     toLower(searchKey);
 
-    acctFileReader = checkFileExistence("usertry.txt", "r", 0);
+    acctFileReader = checkFileExistence("user.txt", "r", 0);
     acctFileWriter = fopen("temp_user_try.txt", "w");
     while(fread(&acct, sizeof(Account), 1, acctFileReader)) {
         strcpy(searchSource, acct.username);
@@ -76,8 +76,8 @@ int recoverUserAcct() {
     fclose(acctFileReader);
     fclose(acctFileWriter);
     printf("\nDone!\n");
-    remove("usertry.txt");
-    rename("temp_user_try.txt", "usertry.txt");
+    remove("user.txt");
+    rename("temp_user_try.txt", "user.txt");
     if (!found) {
         printf("\nNo Username Found. Please Ensure Your Entered A Correct Username.");
     };
@@ -87,8 +87,8 @@ int recoverUserAcct() {
 int updateAdmDetail(char *username) {
     Account acct;
     FILE *acctFileReader, *acctFileWriter;
-    acctFileReader = checkFileExistence("usertry.txt", "r", 0);
-    acctFileWriter = fopen("temp_usertry.txt", "w");
+    acctFileReader = checkFileExistence("user.txt", "r", 0);
+    acctFileWriter = fopen("temp_user.txt", "w");
     while (fread(&acct, sizeof(Account), 1, acctFileReader)) {
         displayAdmDetail(acct);
 
@@ -97,8 +97,8 @@ int updateAdmDetail(char *username) {
     fclose(acctFileReader);
     fclose(acctFileWriter);
     printf("\nDone!\n");
-    remove("usertry.txt");
-    rename("temp_usertry.txt", "usertry.txt");
+    remove("user.txt");
+    rename("temp_user.txt", "user.txt");
     
     return 0;
 };

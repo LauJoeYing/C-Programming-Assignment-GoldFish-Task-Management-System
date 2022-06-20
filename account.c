@@ -35,13 +35,14 @@ int welcomePage()
 int registerUser(Account user) {
     char *userTypeDisplay = user.userType == 'a' ? "Admin" : "User";
     FILE *fileAppender;
-    fileAppender = checkFileExistence("usertry.txt", "a", 1);
+    fileAppender = checkFileExistence("user.txt", "a", 1);
     fwrite(&user, sizeof(Account), 1, fileAppender);
     if (fwrite != 0) {
         printf("%s has been registered successfully!\n", userTypeDisplay);
     } else {
         printf("Error registering %s!\n", userTypeDisplay);
     };
+    fclose(fileAppender);
 
     return 0;
 };
@@ -55,7 +56,7 @@ int registration()
     Account user;
     
     FILE * fileAppender;
-    fileAppender = checkFileExistence("usertry.txt", "a", 1);
+    fileAppender = checkFileExistence("user.txt", "a", 1);
     register_username(user.username);
     register_password(user.password);
     register_name(user.name);
@@ -91,7 +92,7 @@ int register_username(char *usernameTarget)
 
         Account existingUser;
         FILE *userFileReader;
-        userFileReader = checkFileExistence("usertry.txt", "r", 0);    
+        userFileReader = checkFileExistence("user.txt", "r", 0);    
         while(fread(&existingUser, sizeof(Account), 1, userFileReader)) {
             toLower(existingUser.username);
             if(strcmp(existingUser.username, usernameCopy) == 0) {
@@ -219,7 +220,7 @@ Account loginUser() {
         char username[256], password[256];    
         Account user;
         FILE *taskFileReader;
-        taskFileReader = checkFileExistence("usertry.txt", "r", 0);    
+        taskFileReader = checkFileExistence("user.txt", "r", 0);    
         fflush(stdin);
         printf("Username:\t");
         scanf("%[^\n]s", username);
@@ -248,7 +249,7 @@ Account loginUser() {
 int getUserData() {
     Account user;
     FILE *fileReader;
-    fileReader = checkFileExistence("usertry.txt", "r", 0);
+    fileReader = checkFileExistence("user.txt", "r", 0);
     while(fread(&user, sizeof(Account), 1, fileReader)) {
         printf ("username = %s password = %s\n", user.username, user.password);
     }
@@ -261,8 +262,8 @@ int getUserData() {
 //     Account user;
 //     char confirmPassword[256], newPassword[21];
 //     FILE *taskFileReader, *taskFileWriter;
-//     taskFileReader = checkFileExistence("usertry.txt", "r", 0); 
-//     taskFileWriter = fopen("temp_usertry.txt", "w");
+//     taskFileReader = checkFileExistence("user.txt", "r", 0); 
+//     taskFileWriter = fopen("temp_user.txt", "w");
 //     int passwordCorrect, found = 0;
     
 //     do {
@@ -283,8 +284,8 @@ int changePassword(char *username, char *password) {
     Account user;
     char confirmPassword[256], * newPassword;
     FILE *taskFileReader, *taskFileWriter;
-    taskFileReader = checkFileExistence("usertry.txt", "r", 0); 
-    taskFileWriter = fopen("temp_usertry.txt", "w");
+    taskFileReader = checkFileExistence("user.txt", "r", 0); 
+    taskFileWriter = fopen("temp_user.txt", "w");
     int passwordCorrect, found = 0;
     
     do {
@@ -315,8 +316,8 @@ int changePassword(char *username, char *password) {
     fclose(taskFileReader);
     fclose(taskFileWriter);
     printf("\nDone!\n");
-    remove("usertry.txt");
-    rename("temp_usertry.txt", "usertry.txt");
+    remove("user.txt");
+    rename("temp_user.txt", "user.txt");
     
     return 0;
 };
