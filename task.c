@@ -1,41 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "task.h"
-#include "date.h"
-#include "menu.h"
-#include "dateValidation.c"
-#include "menu.c"
-#include "fileHandling.c"
 
-int addTask(char *username);
-int readTask(char *username);
-int editTask(char *username);
-int searchTask(char *username);
-int sortTask();
-int sortByStatusCode(int taskCount, Task *task, Task taskCopy, int ascendingOrder);
-int sortByPriorityCode(int taskCount, Task *task, Task taskCopy, int ascendingOrder);
-int sortByTitle(int taskCount, Task *task, Task taskCopy, int ascendingOrder);
-int sortByDeadline(int taskCount, Task *task, Task taskCopy, int ascendingOrder);
-int sortByDatetimeOfCreation(int taskCount, Task *task, Task taskCopy, int ascendingOrder);
-int deleteTask(char *username);
-int readAllTask();
-int appendTask(char *username, Task task);
-int confirmTask(char *username, Task *task);
-int setTaskCategory(Task *task);
-int setTaskTitle(Task *task);
-int setTaskDescription(Task *task);
-int setTaskStatusCode(Task *task);
-int setTaskPriorityCode(Task *task);
-int setTaskDeadline(Task *task);
-int displayTask(Task *task);
-int displayDatetime(struct tm datetime);
-char *displayStatusCode(int statusCode);
-char *displayPriorityCode(int priorityCode);
-
-
-int main() {
-    char username[] = "angniuniu";
+int taskManagement() {
+    char username[] = "niuniu";
     int continueTaskManagement = 1;
     do {
         printf("\n===================================");
@@ -190,8 +156,7 @@ int setTaskPriorityCode(Task *task) {
 
 int setTaskDeadline(Task *task) {
     printf("\nPlease Enter the Deadline of the Task : \n");
-    task -> deadline = dateValidation();   
-
+    dateValidation(&task -> deadline);   
     return 0;
 };
 
@@ -449,7 +414,8 @@ int sortTask() {
         orderChoice = getChoiceNum(2, 1);
 
         Task *task, taskCopy;
-        FILE *taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);
+        FILE *taskFileReader;
+        taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);
         fseek(taskFileReader, 0 ,SEEK_END);
         int taskCount = ftell(taskFileReader)/sizeof(Task);
         task = (Task*)calloc(taskCount, sizeof(Task));

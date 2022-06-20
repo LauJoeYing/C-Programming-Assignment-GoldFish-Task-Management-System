@@ -1,13 +1,4 @@
-#include <stdio.h> // define the header file 
-#include <string.h>
-#include <stdbool.h>  
-#include <ctype.h>
-#include <stdlib.h>
-
-int user_menu();
-int admin_menu();
-int getChoiceNum(int maxChoice, int minChoice);
-int checkIsNumber(char * target);
+#include "menu.h"
 
 // void main() {  
 //     printf("\nWelcome to the Main Menu of Goldfish Personal Task Management System!\n");
@@ -24,7 +15,7 @@ int user_menu() {
     printf("[ 7 ] - Change Password\n");
     printf("[ 8 ] - Edit Personal Info\n");
     printf("[ X ] - Exit\n");
-} 
+}; 
 
 int admin_menu() {
     printf("[ 1 ] - Recover User's Account\n");
@@ -33,7 +24,7 @@ int admin_menu() {
     printf("[ 2 ] - Update Admin Details\n");
     printf("[ 3 ] - Change Admin Password\n");
     printf("[ X ] - Exit\n");
-}
+};
 
 int getChoiceNum(int maxChoice, int minChoice) {
     char userInput[256];
@@ -72,7 +63,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
 };
 
 
-int checkIsNumber(char * target) {
+int checkIsNumber(char *target) {
     int targetLength = strlen(target), validatedLength = 0;
     for (int i = 0; i < strlen(target); i++) {
         if (isdigit(target[i]) == 1) {

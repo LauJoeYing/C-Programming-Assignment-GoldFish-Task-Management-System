@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <string.h>
+#include "file.h"
 
 FILE *checkFileExistence(char *fileName, char *fileHandling_method, int createFileIfNotExist) {
     while (1) {
@@ -26,4 +25,3 @@ FILE *checkFileExistence(char *fileName, char *fileHandling_method, int createFi
         };
     };
 };
-

@@ -8,7 +8,7 @@ typedef struct Dates {
     int year;
 } Date;
 
-Date dateValidation();
+int dateValidation(Date *dateTarget);
 int printDateError();
 
 #endif
