@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "file.h"
-#include "account.h"
+#include "userDataInjection.h"
 
 const int DATA_SIZE = 46;
 
@@ -61,7 +58,7 @@ const int birthYearList[46] = {
     1977, 1983, 1989, 1990, 1972, 1979, 1977, 1976, 1990, 1986, 1982, 1993, 1981, 1995, 1999, 1994
 };
 
-int main() {
+int userDataInjection() {
     FILE *fileInitializer = fopen("user.txt", "w");
 
     for (int i = 0; i < DATA_SIZE; i++) {

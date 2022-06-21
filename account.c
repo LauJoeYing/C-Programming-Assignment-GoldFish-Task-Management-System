@@ -1,57 +1,5 @@
 #include "account.h"
 
-
-//The Welcome Page for Both Users and Admin
-//They Can Select Either Want to login or Register
-int welcomePage()
-{
-    int option;
-    Account user;
-    do {
-        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
-        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-        printf("\n[ 1 ] - Register");
-        printf("\n[ 2 ] - Login\n\n");
-        
-        printf("Please Enter Your Choice Number:\t\n");
-        scanf("%d",&option);
-
-        switch (option) {
-            case 1:
-                registration();
-                break;
-
-            case 2:
-                user = loginUser();
-                break;
-
-            default:
-                option = 0;
-                break;
-        }   
-    } while (option == 0);  
-
-    return 0;
-};
-
-
-// //Registration Checking for Both Admin and User //////////////////////////////////////////////
-// int registerUser(Account user) {
-//     char *userTypeDisplay = user.userType == 'a' ? "Admin" : "User";
-//     FILE *fileAppender;
-//     fileAppender = checkFileExistence("user.txt", "a", 1);
-//     fwrite(&user, sizeof(Account), 1, fileAppender);
-//     if (fwrite != 0) {
-//         printf("%s has been registered successfully!\n", userTypeDisplay);
-//     } else {
-//         printf("Error registering %s!\n", userTypeDisplay);
-//     };
-//     fclose(fileAppender);
-
-//     return 0;
-// };
-
 //Registration Page for Both User and Admin
 int registration()
 {
@@ -73,7 +21,6 @@ int registration()
 
     printf("\n--------------------------------------------------------------------------\n");
     printf("\nConfirming details...");
-    printf("%s, %s, %s, %c, %s, %i, %i, %i, %s", user.username, user.password, user.contactNum, user.userType, user.name, user.dateOfBirth.day, user.dateOfBirth.month, user.dateOfBirth.year, user.email);
     printf("\n\nWelcome, %s :)\n", user.name);
     fwrite(&user, sizeof(Account), 1, fileAppender);
     fclose(fileAppender);
@@ -276,47 +223,10 @@ Account loginUser() {
     
 };
 
-
-// //Function to Retrieve User Data
-// int getUserData() {
-//     Account user;
-//     FILE *fileReader;
-//     fileReader = checkFileExistence("user.txt", "r", 0);
-//     while(fread(&user, sizeof(Account), 1, fileReader)) {
-//         printf ("username = %s password = %s\n", user.username, user.password);
-//     }
-//     fclose(fileReader);
-    
-//     return 0;
-// };
-
-// int changePassword(char * username, char * password) {
-//     Account user;
-//     char confirmPassword[256], newPassword[21];
-//     FILE *taskFileReader, *taskFileWriter;
-//     taskFileReader = checkFileExistence("user.txt", "r", 0); 
-//     taskFileWriter = fopen("temp_user.txt", "w");
-//     int passwordCorrect, found = 0;
-    
-//     do {
-//         fflush(stdin);
-//         printf("\nEnter old password to continue : ");
-//         scanf("%[^\n]s", confirmPassword);
-//         if (strcmp(confirmPassword, password) == 0) {
-//             passwordCorrect++;
-//             break;
-//         } else {
-//             printf("\nIncorrect Password! Please Try Again!");
-//         };
-//     } while (!passwordCorrect);
-    
-// }
-
-
 //Function to Change Password
 int changePassword(char *username, char *password) {
     Account user;
-    char confirmPassword[256], * newPassword;
+    char confirmPassword[256], *newPassword;
     FILE *userFileReader, *userFileWriter;
     userFileReader = checkFileExistence("user.txt", "r", 0); 
     userFileWriter = fopen("temp_user.txt", "w");

@@ -1,13 +1,5 @@
 #include "admin.h"
 
-//Main
-int main() {
-    admPage();
-
-    return 0;
-};
-
-
 //Function of Admin Main Page
 int admPage() {
     int continueAdminChoice = 1;
