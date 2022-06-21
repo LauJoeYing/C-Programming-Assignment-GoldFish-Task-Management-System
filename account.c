@@ -226,11 +226,11 @@ Account loginUser() {
 //Function to Change Password
 int changePassword(char *username, char *password) {
     Account user;
-    char confirmPassword[256], *newPassword;
+    char confirmPassword[256], newPassword[21];
     FILE *userFileReader, *userFileWriter;
     userFileReader = checkFileExistence("user.txt", "r", 0); 
     userFileWriter = fopen("temp_user.txt", "w");
-    int passwordCorrect, found = 0;
+    int passwordCorrect = 0;
     
     do {
         fflush(stdin);

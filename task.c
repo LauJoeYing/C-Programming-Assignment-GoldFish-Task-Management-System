@@ -30,7 +30,7 @@ int taskManagement() {
                 searchTask(username);
                 break;
             case 5:
-                sortTask();
+                sortTask(username);
                 break;
             case 6:
                 deleteTask(username);
@@ -429,7 +429,7 @@ int searchTask(char *username) {
 
 
 //Function to Sort Tasks
-int sortTask() {
+int sortTask(char *username) {
     printf("\n--- Sort By ---\n");
     printf("\n[ 1 ] - Title");
     printf("\n[ 2 ] - Status");
@@ -448,14 +448,15 @@ int sortTask() {
 
         Task *task, taskCopy;
         FILE *taskFileReader;
-        taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);
+        taskFileReader = checkFileExistence("task_record.txt", "r", 0);
         fseek(taskFileReader, 0 ,SEEK_END);
         int taskCount = ftell(taskFileReader)/sizeof(Task);
         task = (Task*)calloc(taskCount, sizeof(Task));
         rewind(taskFileReader);
 
-        for(int i = 0; i < taskCount; i++) 
+        for(int i = 0; i < taskCount; i++) {
             fread(&task[i], sizeof(Task), 1, taskFileReader);
+        }
 
         switch(sortChoice) {
             case 1:
@@ -478,10 +479,13 @@ int sortTask() {
         }
 
         for (int i = 0; i < taskCount; i++) {
-            printf("\nTask ID\t\t\t: %03d", task[i].taskId);
-            printf("\nDatetime of Creation\t: ");
-            displayDatetime(task[i].datetime_of_creation);
-            displayTask(&task[i]);
+            if (strcmp(task[i].username, username) == 0) {
+                printf("\nTask ID\t\t\t: %03d", task[i].taskId);
+                printf("\nDatetime of Creation\t: ");
+                displayDatetime(task[i].datetime_of_creation);
+                displayTask(&task[i]);
+            }
+            continue;
         };
         
         fclose(taskFileReader);

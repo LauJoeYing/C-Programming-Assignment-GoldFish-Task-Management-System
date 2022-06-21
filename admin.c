@@ -1,18 +1,14 @@
 #include "admin.h"
 
 //Function of Admin Main Page
-int admPage() {
+int adminPage(char *adminUsername, char *adminPassword) {
     int continueAdminChoice = 1;
-    char admUsername[] = "weoyyang00";
 
     do {
         printf("\n===================================");
         printf("\n\tWelcome to Admin Page!\n");
         printf("\n===================================");
-        printf("\n[ 1 ] - Recover User's Account");
-        printf("\n[ 2 ] - Update Admin Details");
-        printf("\n[ 3 ] - Change Admin Account Password");
-        printf("\n[ 0 ] - Back to the Main Page\n");
+        admin_menu();
 
         int adminChoice = getChoiceNum(3, 0);
         switch (adminChoice) {
@@ -20,10 +16,10 @@ int admPage() {
                 recoverUserAcct();
                 break;
             case 2:
-                updateAdmDetail(admUsername);
+                updateAdmDetail(adminUsername);
                 break;
             case 3:
-                changePassword(admUsername);
+                changePassword(adminUsername, adminPassword);
                 break;
             case 0:
                 continueAdminChoice = 0;

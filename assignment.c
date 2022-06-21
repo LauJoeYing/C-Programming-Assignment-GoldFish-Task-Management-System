@@ -7,6 +7,8 @@
 #include "menu.h"
 #include "file.h"
 #include "userDataInjection.h"
+#include "user.h"
+#include "admin.h"
 
 Account welcomePage();
 
@@ -22,10 +24,10 @@ int main() {
     Account currentUser = welcomePage();
     switch (currentUser.userType) {
         case 'u':
-            user_menu();
+            userPage(currentUser.username, currentUser.password);
             break;
         case 'a':
-            admin_menu();
+            adminPage(currentUser.username, currentUser.password);
             break;
     }
 
@@ -45,10 +47,11 @@ Account welcomePage()
         printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
         printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         printf("\n[ 1 ] - Login");
-        printf("\n[ 2 ] - Register\n\n");
+        printf("\n[ 2 ] - Register");
+        printf("\n[ 0 ] - Exit\n\n");
         
         printf("Please Enter Your Choice Number:\t\n");
-        option = getChoiceNum(2, 1);
+        option = getChoiceNum(2, 0);
         Account userOne;
 
         switch (option) {
@@ -59,6 +62,10 @@ Account welcomePage()
 
             case 2:
                 registration();
+                break;
+
+            case 0:
+                exit(0);
                 break;
         }   
     } while (option == 2);
