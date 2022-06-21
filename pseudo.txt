@@ -2,6 +2,7 @@
 //account.c (10 functions)
 
 //The Welcome Page for Both Users and Admin
+INCLUDE account.h as header file
 FUNCTION welcomePage()
     DECLARE option as Integer
     DECLARE user as Account Struct
@@ -27,7 +28,10 @@ ENDFUNCTION
 FUNCTION registration()
     DECLARE user as Account Struct
     DECLARE fileAppender as file pointer
-    DECLARE checkFileExistence("user.txt", "a", 1) as FUNCTION
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist) as FUNCTION
     DECLARE register_username(user.username) as FUNCTION
     DECLARE register_password(user.password) as FUNCTION
     DECLARE register_name(user.name) as FUNCTION
@@ -35,7 +39,7 @@ FUNCTION registration()
     DECLARE register_dateOfBirth(&user.dateOfBirth) as FUNCTION
     DECLARE register_email(user.email) as FUNCTION
 
-    CALL FUNCTION checkFileExistence("user.txt", "a", 1)
+    fileAppender = CALL FUNCTION checkFileExistence("user.txt", "a", 1)
     CALL FUNCTION register_username(user.username)
     CALL FUNCTION register_password(user.password)
     CALL FUNCTION register_name(user.name)
@@ -45,8 +49,8 @@ FUNCTION registration()
 
     DISPLAY 'Confirming details...'
     DISPLAY 'Welcome,' user.name
-    APPEND user into user.txt file 
-    close the user,txt file
+    write user into user.txt file with the size of Account using fileAppender
+    close fileAppender
     DISPLAY 'Registration Successful!'
 ENDFUNCTION
 
@@ -54,7 +58,7 @@ ENDFUNCTION
 
 //Function To Register the Username
 DECLARE usernameTarget as Character pointer 
-FUNCTION register_username(char *usernameTarget)  ##
+FUNCTION register_username(usernameTarget)
     
     DECLARE userFileReader as file pointer
     DECLARE validated as Integer
@@ -62,18 +66,22 @@ FUNCTION register_username(char *usernameTarget)  ##
     DECLARE username[21] as Character Array
     DECLARE usernameCopy[21] as Character Array
     DECLARE existingUser as Account Struct
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist)
 
     set validated to FALSE
     set match to FALSE
 
     DOWHILE (validated = FALSE)
 
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY  'Please Enter Your New Username:'
         READ username
         copy character string from usernameCopy to username
         
-        CALL FUNCTION checkFileExistence ("user.txt", "r", 0)
+        userFileReader = CALL FUNCTION checkFileExistence("user.txt", "r", 0)
         WHILE (read the existingUser from the file with the size of Account using userFileReader)
             covert existingUser.username to lowercase
             IF (existingUser.username is not same as usernameCopy) THEN
@@ -99,23 +107,23 @@ ENDFUNCTION
 //Function To Register User Password
 
 DELCARE passwordTarget as Character pointer 
-FUNCTION register_password(char *passwordTarget)
+FUNCTION register_password(passwordTarget)
     
     DELCARE password[21] as Character Array
     DELCARE confirmPassword[21] as Character Array
 
     WHILE TRUE
 
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Please Enter Your New Password (8-20 characters):'
         READ password
 
-        IF (strlen(password)<8 OR strlen(password)>20) THEN
+        IF (length of password <8 OR length of password >20) THEN
             DISPLAY 'Invalid Password! Please Ensure Your New Password have 8-20 Characters'
             continue
         ENDIF
 
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Please Enter Your New Password Again:'
         READ confirmPassword
 
@@ -136,10 +144,10 @@ ENDFUNCTION
 //Function To Register User's Name
 
 DELCARE nameTarget as Character pointer 
-FUNCTION register_name(char *nameTarget)
+FUNCTION register_name(nameTarget)
 
     DELCARE name[256] as Character Array
-    flush the output buffer of the stream
+    flush the input stream
     DISPLAY 'Please Enter Your Name:'
     READ name
     copy character string from name to nameTarget
@@ -151,19 +159,19 @@ ENDFUNCTION
 //Function To Register User's Contact Number
 
 DELCARE contactNumTarget as Character pointer 
-FUNCTION register_contactNum(char *contactNumTarget)
+FUNCTION register_contactNum(contactNumTarget)
 
     DELCARE contactNum[11] as Character Array
 
     WHILE TRUE
 
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Please Enter Your Contact Number (without'-'): 60'
         READ contactNum
 
         IF contactNum is a number THEN
 
-            IF contactNum[0] = '1' AND (contactNum[1] != '1' AND strlen(contactNum) == 9 OR contactNum[1] == '1' AND strlen(contactNum) == 10)) THEN
+            IF (contactNum[0] = '1' AND (contactNum[1] != '1' AND (length of contactNum == 9) OR contactNum[1] == '1' AND (length of contactNum == 10)) THEN
                 DISPLAY 'Correct Phone Number Format! Congrats! Your Phone Number has been Verified!'
                 copy character string from contactNum to contactNumTarget
                 break
@@ -186,7 +194,7 @@ ENDFUNCTION
 //Function To Register User's Date of Birth
 
 DECLARE dateOfBirthTarget as Date Struct
-FUNCTION register_dateOfBirth(Date *dateOfBirthTarget) 
+FUNCTION register_dateOfBirth(dateOfBirthTarget) 
     
     DISPLAY 'Please Enter Your Date of Birth:'
     CALL FUNCTION dateValidation(dateOfBirthTarget)
@@ -199,12 +207,12 @@ ENDFUNCTION
 //Function To Register User's Email Address
 
 DECLARE emailTarget as Character pointer 
-FUNCTION register_email(char *emailTarget)
+FUNCTION register_email(emailTarget)
 
     DECLARE email[321] as Character Array
 
     WHILE TRUE
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Please Enter Your Email:'
         READ email
 
@@ -231,6 +239,10 @@ FUNCTION loginUser()
     DECLARE password[256] as Character Array
     DECLARE user as Account Struct
     DECLARE userFileReader as file pointer
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist)
 
     set found to FALSE
 
@@ -239,13 +251,13 @@ FUNCTION loginUser()
 
     DOWHILE (found = FALSE)
 
-        CALL FUNCTION checkFileExistence("user.txt", "r", 0)
-        flush the output buffer of the stream
+        userFileReader = CALL FUNCTION checkFileExistence("user.txt", "r", 0)
+        flush the input stream
         DISPLAY 'Username:'
         READ username
         covert username to lowercase
 
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Password:'
         READ password
 
@@ -269,7 +281,7 @@ ENDFUNCTION
     
 -----------------------------------------------------------------------------
 
-//Function to Change Password
+//Function to Change Password ############################
 
 DELCARE username as Character pointer 
 DELCARE password as Character pointer 
@@ -282,14 +294,17 @@ FUNCTION changePassword(username, password)
     DECLARE userFileWriter as file pointer
     DECLARE passwordCorrect as Integer
     DECLARE register_password as Function
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist)
 
+    userFileReader = CALL FUNCTION checkFileExistence("user.txt", "r", 0)
+    opem temp_user.txt file in write mode using userFileWriter
     set Found as FALSE
-    read user.txt file using userFileReader
-    open temp_user.txt file using userFileWriter
-    write temp_user.txt file using userFileWriter
-   
+
     DOWHILE (passwordCorrect = FALSE)
-        flush the output buffer of the stream
+        flush the input stream
         DISPLAY 'Please Enter Your Current Password:'
         READ confirmPassword
 
@@ -303,7 +318,7 @@ FUNCTION changePassword(username, password)
         ENDIF
     ENDDO
 
-    flush the output buffer of the stream
+    flush the input stream
     CALL FUNCTION register_password(newPassword)
     
     WHILE (read user from file with the size of Account using userFileReader)
@@ -324,8 +339,9 @@ ENDFUNCTION
 -----------------------------------------------------------------------------
 //admin.c (4 functions)
 
-//Function of Admin Main Page
 
+//Function of Admin Main Page
+INCLUDE admin.h as header file
 FUNCTION admPage()
     DECLARE continueAdminChoice as Integer
     DECLARE admUsername[] as Character Array
@@ -340,14 +356,12 @@ FUNCTION admPage()
         DISPLAY '======================='
         DISPLAY '[ 1 ] - Recover User's Account'
         DISPLAY '[ 2 ] - Update Admin Details'
-        DISPLAY '[ 3 ] - View All Tasks'
-        DISPLAY '[ 4 ] - Change Admin Account Password'
+        DISPLAY '[ 3 ] - Change Admin Account Password'
         DISPLAY '[ 0 ] - Back to the Main Page'
 
-        CALL getChoiceNum(4, 0)
+        CALL getChoiceNum(3, 0)
 
         CASE OF adminChoice
-
             1: 
                 CALL FUNCTION recoverUserAcct()
                 break
@@ -355,15 +369,11 @@ FUNCTION admPage()
             2:  CALL FUNCTION updateAdmDetail(admUsername)
                 break
 
-            3:  CALL FUNCTION readAllTask()
-                break
-
-            4:  CALL FUNCTION  ##################################
+            3:  CALL FUNCTION changePassword()
                 break
 
             0:  continueAdminChoice = FALSE
                 break
-
         ENDCASE
     ENDWHILE
 ENDFUNCTION
@@ -372,22 +382,352 @@ ENDFUNCTION
 
 //Function to Recover User Account In the Case of Forgot Password
 FUNCTION recoverUserAcct()
-    DECLARE
 
+    DECLARE searchKey[21] as Character Array
+    DECLARE searchSource[21] as Character Array
+    DECLARE lastSixDigits[7] as Character Array
+    DECLARE acct as Account Struct
+    DECLARE userFileReader as file pointer
+    DECLARE userFileWriter as file pointer
+    DECLARE found as Integer
+    DECLARE newPass[50] as Character
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist)
 
+    set found as FALSE
 
+    flush the input stream
+    DISPLAY 'Please Enter the Account Username that You Would Like to Recover:'
+    READ searchKey
+    convert searchKey to lowercase
 
+    userFileReader = CALL FUNCTION checkFileExistence("user.txt", "r", 0) 
+    open temp_user.txt file in write mode using userFileWriter
 
+        WHILE (read acct in the size of Account using userFileReader)
+            copy character string from acct.username to searchSource
+            convert searchSource to lowercase
 
+            IF searchSource is same as searchKey 
+                found = TRUE
+                DISPLAY 'Recovering account...'
+                lastSixDigits = last six characters of acct.contactNum
+                copy character string from acct.username to newPass
+                concatenates newPass and lastSixDigits
 
+                DISPLAY 'Congratulations! The Account Has Been Recovered!'
+                DISPLAY 'The New Password of is', newPass
+            ENDIF
 
+            write acct into the file in the size of Account using userFileWriter
+        ENDWHILE
 
+        close userFileReader
+        close userFileWriter
+        DISPLAY 'Done!'
+        remove user.txt
+        rename temp_user.txt to user.txt
 
-//date.c (2 functions)
+    IF (found = FALSE)
+        DISPLAY ('No Username Found. Please Ensure Your Entered A Correct Username.')
+    ENDIF
 
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Update Admin Details
+DECLARE username as Character pointer
+FUNCTION updateAdmDetail(char *username)
+    DECLARE acct as Account
+    DECLARE userFileReader as file pointer
+    DECLARE userFileWriter as file pointer
+    DECLARE displayAdmDetail as Function
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist)
+
+    userFileReader = CALL FUNCTION checkFileExistence("user.txt", "r", 0)
+    open temp_user.txt in write mode using userFileWriter
+
+    WHILE (read acct from the file with the size of Account using userFileReader)
+        CALL FUNCTION displayAdmDetail(acct)
+    ENDWHILE
+
+    write acct into the file with the size of Account using userFileWriter
+    close userFileReader
+    close userFileWriter
+    DISPLAY 'Done!'
+    remove user.txt
+    rename temp_user.txt to user.txt
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Display Admin's Current Details
+FUNCTION displayAdmDetail(Account acct)
+
+    DECLARE editChoice as Integer
+
+    DISPLAY '[ 1 ]- Username', acct.username
+    DISPLAY '[ 2 ]- Admin Name', acct.name
+    DISPLAY '[ 3 ]- Contact Number', acct.contactNum
+    DISPLAY '[ 4 ]- Date of Birth', acct.dateOfBirth.day, acct.dateOfBirth.month, acct.dateOfBirth.year
+    DISPLAY '[ 5 ]- Email Address', acct.email
+
+    flush the input stream
+    editchoice = CALL FUNCTION getChoiceNum(5,1)
+
+    CASE OF editChoice
+        1:
+            CALL FUNCTION register_username(acct.username)
+            break
+
+        2:  CALL FUNCTION register_name(acct.name)
+            break
+
+        3:  CALL FUNCTION register_contactNum(acct.contactNum)
+            break
+
+        4:  CALL FUNCTION register_dateOfBirth(acct.dateOfBirth)
+            break
+
+        5:  CALL FUNCTION register_email(acct.email)
+            break
+    ENDCASE
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//date.c (1 function)
+
+INCLUDE stdio.h as header file
+INCLUDE stdlib.h as header file
+INCLUDE string.h as header file
+INCLUDE ctype.h as header file
+INCLUDE date.h as header file
+INCLUDE menu.h as header file
+
+FUNCTION dateValidation(Date *dateTarget)
+
+    DECLARE dateInput[11] as Character Array
+    DECLARE dateInputCopy[11] as Character Array
+    DECLARE DELIMITER as Constant Character
+    DECLARE token as Character
+    DECLARE day as Integer
+    DECLARE month as Integer
+    DECLARE year as Integer
+    DECLARE printDateError() as function
+
+    set DELIMITER as '/'
+    WHILE TRUE
+
+        flush the input stream
+        DISPLAY 'Please enter the date in (DD/MM/YYYY):'
+        READ dateInput 
+        copy character string from dateInput to dateInputCopy
+
+        IF (length of dateInput >= 8 AND length of dateInput <= 10) THEN
+            token = tokenizing dateInputCopy based on DELIMITER
+
+            IF (length of token equal to length of dateInput) THEN
+                DELIMITER = "-"
+                token = tokenizing dateInput based on DELIMITER
+            ENDIF
+
+            IF ( length of token == 1 OR  length of token == 2 AND checkIsNumber(token) == 1) THEN
+                day = convert token into an Integer
+                token = tokenizing NULL based on DELIMITER
+
+                IF ( length of token == 1 OR length of token == 2 AND checkIsNumber(token) == 1) THEN
+                    month = convert token into an Integer
+                    token = tokenizing NULL based on DELIMITER
+
+                    IF (length of token == 4 AND checkIsNumber(token) == 1) THEN
+                        year = convert token into an Integer
+
+                        if(year >= 1900 AND year <= 2022) THEN
+                            if(month >= 1 AND month <= 12) THEN
+                                if( (day >= 1 AND day <= 31)
+                                    AND (month >= 1 
+                                        AND month <= 7
+                                        AND month % 2 == 1
+                                        AND month >= 8
+                                        AND month <= 12
+                                        AND month % 2 == 0) 
+                                    OR (day >= 1 AND day <= 30)
+                                        AND (month==4
+                                            OR month ==6
+                                            OR month == 9
+                                            OR month == 11)
+                                        OR (day >= 1
+                                            AND day <= 28
+                                            AND month == 2)
+                                        OR (day == 29
+                                            AND month == 2
+                                            AND year % 400 == 0)
+                                        OR (year %4 == 0
+                                            AND year %100 != 0)
+
+                                            dateTarget.day = day
+                                            dateTarget.month = month
+                                            dateTarget.year = year
+                                            break
+                                ENDIF
+                            ENDIF
+                        ENDIF
+                    ENDIF
+                ENDIF
+            ENDIF
+            DISPLAY 'Invalid Date Entry. Please Try Again.'
+            continue
+        ENDIF
+    ENDWHILE   
+ENDFUNCTION                      
+
+-----------------------------------------------------------------------------
 //file.c (1 function)
+//File Handling Function to Check the Existence of the File
+
+INCLUDE file.h header file
+DECLARE fileName as character pointer
+DECLARE fileHandling_method as character pointer
+DECLARE createFileIfNotExist as integer
+DECLARE filePointer as file pointer
+DECLARE filePointer1 as file pointer
+DECLARE choice as character
+
+FUNCTION checkFileExistence (fileName, fileHandling_method, createFileIfNotExist)
+
+    WHILE TRUE
+        open fileName in fileHandling_method using filePointer
+        IF (filePointer == NULL) THEN
+            IF (createFileIfNotExist = TRUE) THEN
+                open fileName in write mode using filePointer1
+                close (filePointer1)
+                continue
+
+                DISPLAY 'Target file does not exist.'
+                DISPLAY 'Enter any key to continue after relocating the file.'
+                DISPLAY '[X] - To Exit'
+                read choice
+
+                convert choice to lowercase
+                IF (length of choice == 2 AND choice == 'x') THEN
+                    exit the program
+                    break
+                ELSE
+                    continue
+                ENDIF
+            ELSE
+                return filePointer
+            ENDIF
+        ENDIF
+    ENDWHILE
+ENDFUNCTION 
+            
+
+-----------------------------------------------------------------------------
 
 //menu.c (5 functions)
+
+INCLUDE menu.h as header file
+
+//Function to Display User Main Menu
+FUNCTION user_menu()
+
+    DISPLAY '[ 1 ] - Add New Task'
+    DISPLAY '[ 2 ] - Sort and View Tasks'
+    DISPLAY '[ 3 ] - View All Tasks'
+    DISPLAY '[ 4 ] - Update Task'
+    DISPLAY '[ 5 ] - Delete Task'
+    DISPLAY '[ 6 ] - Search Task'
+    DISPLAY '[ 7 ] - Change Password'
+    DISPLAY '[ X ] - Exit'
+
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Display Admin Main Menu
+FUNCTION admin_menu()
+
+    DISPLAY '[ 1 ] - Recover User's Account'
+    DISPLAY '[ 2 ] - Search User Tasks'
+    DISPLAY '[ 3 ] - Update Admin Details'
+    DISPLAY '[ 4 ] - Change Admin Password'
+    DISPLAY '[ X ] - Exit'
+
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Prompt User for the Menu Choice Number Input
+
+DECLARE maxChoice as integer
+DECLARE minChoice as integer
+FUNCTION getChoiceNum(maxChoice, minChoice)
+    DECLARE userInput[256] as character array
+    DECLARE userInput_length as integer
+    DECLARE choice as integer
+    DECLARE userExitInput[256] as character array
+    DECLARE userExitInput_length as integer
+
+    WHILE TRUE
+        DISPLAY 'Select a choice:'
+        READ userInput
+    
+    IF (userInput is not a number) THEN
+        choice = convert userInput into integer
+        IF (choice >= minChoice AND choice <= maxChoice) THEN
+            return choice
+        ELSE
+            DISPLAY 'Your Choice is not in available selection range.'
+            continue
+        ENDIF
+    ELSE
+        convert userInput to lowercase
+        IF (userInput_length == 1 AND userInput[0] == 'x') THEN
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //task.c (25 functions)
 

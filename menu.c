@@ -15,7 +15,6 @@ int user_menu() {
     printf("[ 5 ] - Delete Task\n");
     printf("[ 6 ] - Search Task\n");
     printf("[ 7 ] - Change Password\n");
-    printf("[ 8 ] - Edit Personal Info\n");
     printf("[ X ] - Exit\n");
 }; 
 
@@ -24,9 +23,8 @@ int user_menu() {
 int admin_menu() {
     printf("[ 1 ] - Recover User's Account\n");
     printf("[ 2 ] - Search User Tasks");
-    printf("[ 3 ] - View All User Tasks");
-    printf("[ 2 ] - Update Admin Details\n");
-    printf("[ 3 ] - Change Admin Password\n");
+    printf("[ 3 ] - Update Admin Details\n");
+    printf("[ 4 ] - Change Admin Password\n");
     printf("[ X ] - Exit\n");
 };
 
@@ -45,14 +43,14 @@ int getChoiceNum(int maxChoice, int minChoice) {
             if (choice >= minChoice && choice <= maxChoice) {
                 return choice;
             } else {
-                printf("%s is not in available selection range.", userInput);
+                printf("%s is not in Available Selection Range.", userInput);
                 continue;
             };
         } else {
             if (userInput_length == 1 && tolower(userInput[0]) == 'x') {
                     char userExitInput[256];
                     int userExitInput_length;
-                    printf("\nConfirm exit? [X - To Confirm Exit]\n");
+                    printf("\nConfirm exit?\n[ X ] - To Confirm Exit]\n");
                     scanf("%s",&userExitInput);
                     userExitInput_length = strlen(userExitInput);
                     if (userExitInput_length == 1 && tolower(userExitInput[0]) == 'x') {

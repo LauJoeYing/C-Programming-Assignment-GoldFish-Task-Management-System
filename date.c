@@ -46,16 +46,9 @@ int dateValidation(Date *dateTarget) {
                 };
             };
         };
-        printDateError();
+        printf("Invalid Date Entry. Please Try Again.\n");
         continue;
     };
 
     return 0;
 };
-
-//Function to Display Date Error Message
-int printDateError() {
-    printf("Invalid date entry. Please try again.\n");
-    
-    return 0;
-}

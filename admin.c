@@ -19,11 +19,10 @@ int admPage() {
         printf("\n===================================");
         printf("\n[ 1 ] - Recover User's Account");
         printf("\n[ 2 ] - Update Admin Details");
-        printf("\n[ 3 ] - View All Tasks");
-        printf("\n[ 4 ] - Change Admin Account Password");
+        printf("\n[ 3 ] - Change Admin Account Password");
         printf("\n[ 0 ] - Back to the Main Page\n");
 
-        int adminChoice = getChoiceNum(4, 0);
+        int adminChoice = getChoiceNum(3, 0);
         switch (adminChoice) {
             case 1:
                 recoverUserAcct();
@@ -32,11 +31,8 @@ int admPage() {
                 updateAdmDetail(admUsername);
                 break;
             case 3:
-                readAllTask();
+                changePassword(admUsername);
                 break;
-            // case 4:
-            //     changePassword();
-            //     break;
             case 0:
                 continueAdminChoice = 0;
                 break;
@@ -53,7 +49,7 @@ int admPage() {
 int recoverUserAcct() {
     char searchKey[21], searchSource[21], lastSixDigits[7];
     Account acct;
-    FILE *acctFileReader, *acctFileWriter;
+    FILE *userFileReader, *userFileWriter;
     int found = 0;
 
     fflush(stdin);
@@ -61,13 +57,13 @@ int recoverUserAcct() {
     scanf("%[^\n]s", searchKey);
     toLower(searchKey);
 
-    acctFileReader = checkFileExistence("user.txt", "r", 0);
-    acctFileWriter = fopen("temp_user_try.txt", "w");
-    while(fread(&acct, sizeof(Account), 1, acctFileReader)) {
+    userFileReader = checkFileExistence("user.txt", "r", 0);
+    userFileWriter = fopen("temp_user.txt", "w");
+    while(fread(&acct, sizeof(Account), 1, userFileReader)) {
         strcpy(searchSource, acct.username);
         toLower(searchSource);
         if (strcmp (searchSource, searchKey) == 0 ) {
-            found ++;
+            found = 1;
             printf("\nRecovering %s's account...", acct.name);
             sprintf(lastSixDigits, acct.contactNum + strlen(acct.contactNum) -6);
             char newPass[50];
@@ -77,13 +73,13 @@ int recoverUserAcct() {
             printf("Congratulations! The Account Has Been Recovered!\n");
             printf("The New Password of %s is %s", acct.username, newPass);
         };
-        fwrite(&acct, sizeof(Account), 1, acctFileWriter);
+        fwrite(&acct, sizeof(Account), 1, userFileWriter);
     };
-    fclose(acctFileReader);
-    fclose(acctFileWriter);
+    fclose(userFileReader);
+    fclose(userFileWriter);
     printf("\nDone!\n");
     remove("user.txt");
-    rename("temp_user_try.txt", "user.txt");
+    rename("temp_user.txt", "user.txt");
     if (!found) {
         printf("\nNo Username Found. Please Ensure Your Entered A Correct Username.");
     };
@@ -94,16 +90,16 @@ int recoverUserAcct() {
 //Function to Update Admin Details
 int updateAdmDetail(char *username) {
     Account acct;
-    FILE *acctFileReader, *acctFileWriter;
-    acctFileReader = checkFileExistence("user.txt", "r", 0);
-    acctFileWriter = fopen("temp_user.txt", "w");
-    while (fread(&acct, sizeof(Account), 1, acctFileReader)) {
+    FILE *userFileReader, *userFileWriter;
+    userFileReader = checkFileExistence("user.txt", "r", 0);
+    userFileWriter = fopen("temp_user.txt", "w");
+    while (fread(&acct, sizeof(Account), 1, userFileReader)) {
         displayAdmDetail(acct);
 
     };
-    fwrite (&acct, sizeof(Account), 1, acctFileWriter);
-    fclose(acctFileReader);
-    fclose(acctFileWriter);
+    fwrite (&acct, sizeof(Account), 1, userFileWriter);
+    fclose(userFileReader);
+    fclose(userFileWriter);
     printf("\nDone!\n");
     remove("user.txt");
     rename("temp_user.txt", "user.txt");

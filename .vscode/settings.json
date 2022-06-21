@@ -4,7 +4,10 @@
     "menu.h": "c",
     "date.h": "c",
     "account.h": "c",
-    "stdio.h": "c"
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "ctype.h": "c",
+    "admin.h": "c"
   },
   "C_Cpp.errorSquiggles": "Enabled",
   "C_Cpp_Runner.cCompilerPath": "C:/MinGW/bin/gcc.exe",
