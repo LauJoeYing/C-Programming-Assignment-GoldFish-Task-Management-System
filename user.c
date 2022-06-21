@@ -10,7 +10,7 @@ int userPage(char *userUsername, char *userPassword) {
         printf("\n===================================");
         user_menu();
 
-        int userChoice = getChoiceNum(7, 0);
+        int userChoice = getChoiceNum(8, 0);
         switch (userChoice) {
             case 1:
                 addTask(userUsername);
@@ -31,6 +31,9 @@ int userPage(char *userUsername, char *userPassword) {
                 searchTask(userUsername);
                 break;
             case 7:
+                updateUserDetail(userUsername);
+                break;
+            case 8:
                 changePassword(userUsername, userPassword);
                 break;
             case 0:

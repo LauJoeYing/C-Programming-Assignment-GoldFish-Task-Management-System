@@ -14,22 +14,24 @@ Account welcomePage();
 
 int main() {
 
-    FILE *filePointer;
-    filePointer = fopen("user.txt", "r");
-    if (filePointer == NULL) {
-        userDataInjection();
-    }
-    fclose(filePointer);
+    while (1) {
+        FILE *filePointer;
+        filePointer = fopen("user.txt", "r");
+        if (filePointer == NULL) {
+            userDataInjection();
+        }
+        fclose(filePointer);
 
-    Account currentUser = welcomePage();
-    switch (currentUser.userType) {
-        case 'u':
-            userPage(currentUser.username, currentUser.password);
-            break;
-        case 'a':
-            adminPage(currentUser.username, currentUser.password);
-            break;
-    }
+        Account currentUser = welcomePage();
+        switch (currentUser.userType) {
+            case 'u':
+                userPage(currentUser.username, currentUser.password);
+                break;
+            case 'a':
+                adminPage(currentUser.username, currentUser.password);
+                break;
+        }
+    };
 
     return 0;
 }
@@ -49,8 +51,7 @@ Account welcomePage()
         printf("\n[ 1 ] - Login");
         printf("\n[ 2 ] - Register");
         printf("\n[ 0 ] - Exit\n\n");
-        
-        printf("Please Enter Your Choice Number:\t\n");
+    
         option = getChoiceNum(2, 0);
         Account userOne;
 

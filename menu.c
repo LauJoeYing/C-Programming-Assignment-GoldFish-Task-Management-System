@@ -8,7 +8,8 @@ int user_menu() {
     printf("\n[ 4 ] - Update Task");
     printf("\n[ 5 ] - Delete Task");
     printf("\n[ 6 ] - Search Task");
-    printf("\n[ 7 ] - Change Password");
+    printf("\n[ 7 ] - Edit Profile Details");
+    printf("\n[ 8 ] - Change Password");
     printf("\n[ 0 ] - Log Out\n");
 }; 
 
@@ -28,7 +29,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
     int userInput_length, choice;
 
     while (1) {
-        printf("\nSelect a choice\t: ");
+        printf("Please Enter Your Choice Number:\t\n");
         scanf("%s",&userInput);
         if (checkIsNumber(userInput)) {
             choice = atoi(userInput);

@@ -9,10 +9,7 @@
 #include "account.h"
 #include "file.h"
 
-int main();
 int adminPage(char *adminUsername, char *adminPassword);
 int recoverUserAcct();
-int updateAdmDetail(char *username);
-int displayAdmDetail(Account acct);
 
 #endif

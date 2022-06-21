@@ -28,5 +28,7 @@ int register_dateOfBirth(Date *dateOfBirthTarget);
 int register_email(char *emailTarget);
 Account loginUser();
 int changePassword(char *username, char *password);
+int updateUserDetail(char *username);
+int displayUserDetail(Account user);
 
 #endif

@@ -194,7 +194,7 @@ Account loginUser() {
     printf("\nPlease Enter Your Login Credentials Below:\n\n");
 
     do {
-        char username[256], password[256];    
+        char username[256], password[256], usernameCopy[21];    
         Account user;
         FILE *userFileReader;
         userFileReader = checkFileExistence("user.txt", "r", 0);    
@@ -208,8 +208,9 @@ Account loginUser() {
         scanf("%[^\n]s", password);
 
         while(fread(&user, sizeof(Account), 1, userFileReader)) {
-            toLower(user.username);
-            if ((strcmp(user.username, username) == 0) && (strcmp(user.password, password) == 0)) {
+            strcpy(usernameCopy, user.username);
+            toLower(usernameCopy);
+            if ((strcmp(usernameCopy, username) == 0) && (strcmp(user.password, password) == 0)) {
                 printf("\nWelcome back, %s!", user.name); 
                 fclose(userFileReader);
                 found = 1;
@@ -245,14 +246,12 @@ int changePassword(char *username, char *password) {
         };
     } while (!passwordCorrect);
     
-
-    fflush(stdin);
     register_password(newPassword);
-    scanf("%[^\n]s", newPassword);
     
     while(fread(&user, sizeof(Account), 1, userFileReader)) {
         if (strcmp(user.username, username) == 0) {
             strcpy(user.password, newPassword); 
+            strcpy(password, newPassword); 
         };
         fwrite(&user, sizeof(Account), 1, userFileWriter);
     };
@@ -261,6 +260,50 @@ int changePassword(char *username, char *password) {
     printf("\nDone!\n");
     remove("user.txt");
     rename("temp_user.txt", "user.txt");
+    
+    return 0;
+};
+
+//Function to Update User Details
+int updateUserDetail(char *username) {
+    Account user;
+    FILE *userFileReader, *userFileWriter;
+    userFileReader = checkFileExistence("user.txt", "r", 0);
+    userFileWriter = fopen("temp_user.txt", "w");
+    while (fread(&user, sizeof(Account), 1, userFileReader)) {
+        displayUserDetail(user);
+
+    };
+    fwrite (&user, sizeof(Account), 1, userFileWriter);
+    fclose(userFileReader);
+    fclose(userFileWriter);
+    printf("\nDone!\n");
+    remove("user.txt");
+    rename("temp_user.txt", "user.txt");
+    
+    return 0;
+};
+
+//Function to Display User's Current Details
+int displayUserDetail(Account user) {
+    printf("\nUsername\t\t: %s", user.username);
+    printf("\nName\t\t: %s", user.name);
+    printf("\n[ 1 ] - Contact Number\t: %s", user.contactNum);
+    printf("\n[ 2 ] - Date of Birth\t: %02d/%02d-%04d", user.dateOfBirth.day, user.dateOfBirth.month, user.dateOfBirth.year);
+    printf("\n[ 3 ] - Email Address\t: %s", user.email);
+    fflush(stdin);
+    int editChoice = getChoiceNum(3, 1);
+    switch (editChoice) {
+        case 1:
+            register_contactNum(user.contactNum);
+            break;
+        case 2:
+            register_dateOfBirth(&user.dateOfBirth);
+            break;
+        case 3:
+            register_email(user.email);
+            break;
+    }
     
     return 0;
 };
