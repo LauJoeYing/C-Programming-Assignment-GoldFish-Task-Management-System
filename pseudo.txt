@@ -345,7 +345,9 @@ INCLUDE admin.h as header file
 FUNCTION admPage()
     DECLARE continueAdminChoice as Integer
     DECLARE admUsername[] as Character Array
-    DECLARE getChoiceNum as Function
+    DECLARE maxChoice as Integer
+    DECLARE minChoice as Integer
+    DECLARE getChoiceNum(maxChoice, minChoice) as Function
     DECLARE adminChoice as Integer
 
     set continueAdminChoice as TRUE
@@ -691,44 +693,227 @@ FUNCTION getChoiceNum(maxChoice, minChoice)
     ELSE
         convert userInput to lowercase
         IF (userInput_length == 1 AND userInput[0] == 'x') THEN
-            
+            DISPLAY 'Confirm Exit?'
+            DISPLAY '[ X ] - To Confirm Exit'
+            READ userExitInput
+            userExitInput_length = length of characters in userExitInput
+            onvert userExitInput to lowercase
 
+            IF (userExitInput_length == 1 AND userExitInput[0] == 'x') THEN
+                exit the program
+                break
+            ELSE
+                continue
+            ENDIF
+        ELSE
+            DISPLAY 'Is Not a Validated Number.'
+            continue
+        ENDIF
+    ENDIF
+ENDFUNCTION
 
+-----------------------------------------------------------------------------
 
+//Function to Validate if Given Input is a Number   ****************************NEED CHECK FOR LOOP
 
+DECLARE target as character pointer
+FUNCTION checkIsNumber(target)
+    DECLARE targetLength as integer
+    DECLARE validatedLength as integer
+    DECLARE i as integer
 
+    set validatedLength as FALSE
+    targetLength = length of characters in target
+    set i as FALSE
 
+    LOOP i FROM 0 To length of target STEP 1
+        IF (target[i] is a digit AND target[i] == 1) THEN
+            validatedLength = TRUE
+        ENDIF
+        NEXT i
+    ENDLOOP
 
+    IF (targetLength is equal to validatedLength)
+        return TRUE
+    ENDIF
+    
+ENDFUNCTION
 
+-----------------------------------------------------------------------------
 
+//Function to Convert the Entire User Input into Lower Case
 
+DECLARE str as character pointer
+FUNCTION toLower(str)
 
+    DECLARE i as integer
 
+    LOOP i FROM 0 To str[i] STEP 1
+        str[i] = convert one i into lowercase
+        NEXT i
+    ENDLOOP
 
+ENDFUNCTION
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-----------------------------------------------------------------------------
 
 //task.c (25 functions)
 
-total: 46 functions
+
+//Function to Add Task
+DECLARE username as character pointer
+FUNCTION addTask(username) 
+    DECLARE tasks AS Task Struct
+    DECLARE numberOfTasks as integer
+    DECLARE getChoiceNum(maxChoice,minChoice) as Function
+    DECLARE i as integer
+    DECLARE setTaskCategory(&tasks[i]) as FUNCTION
+    DECLARE setTaskTitle(&tasks[i]) as FUNCTION
+    DECLARE setTaskCategory(&tasks[i]) as FUNCTION
+    DECLARE setTaskDescription(&tasks[i]) as FUNCTION
+    DECLARE setTaskStatusCode(&tasks[i]) as FUNCTION
+    DECLARE setTaskPriorityCode(&tasks[i]) as FUNCTION
+    DECLARE setTaskDeadline(&tasks[i]) as FUNCTION
+    DECLARE confirmTask(username, &tasks[i]) as FUNCTION
+    DECLARE appendTask(username, tasks[i])as FUNCTION
+
+    DISPLAY 'Welcome to Add Task Section'
+    DISPLAY 'Please Enter the Number of New Tasks to Be Added:'
+    numberOfTasks = CALL FUNCTION getChoiceNum(10, 0)
+
+    tasks = allocate memory blocks with the same amount as the numberOfTasks of the size of Task
+
+    LOOP i FROM 0 To numberOfTasks STEP 1
+        copy character string from username to tasks[i].username
+        CALL FUNCTION setTaskCategory(&tasks[i])
+        CALL FUNCTION setTaskTitle(&tasks[i])
+        CALL FUNCTION setTaskDescription(&tasks[i])
+        CALL FUNCTION setTaskStatusCode(&tasks[i])
+        CALL FUNCTION setTaskPriorityCode(&tasks[i])
+        CALL FUNCTION setTaskDeadline(&tasks[i])
+        CALL FUNCTION confirmTask(username, &tasks[i])
+        CALL FUNCTION appendTask(username, tasks[i])
+        NEXT i
+    ENDLOOP
+    return FALSE
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Select the New Task Category
+DECLARE tasks as Task Struct
+FUNCTION setTaskCategory(tasks)
+    DECLARE categoryChoice as Integer
+
+    DISPLAY '===== Please Select the New Task Category ====='
+    DISPLAY '[ 1 ] - Personal'
+    DISPLAY '[ 2 ] - Work'
+    DISPLAY '[ 3 ] - Social'
+    DISPLAY '[ 4 ] - Create New Category'
+
+    categoryChoice = CALL FUNCTION getChoiceNum(4, 1)
+
+    CASE OF categoryChoice
+        1: 
+            copy character string from "Personal" to task.category
+            break
+
+        2:  copy character string from "Work" to task.category
+            break
+
+        3:  copy character string from "Social" to task.category
+            break
+
+        4:  flush the input stream
+            DISPLAY 'Please Enter Your New Task Category:'
+            READ tasks.category
+            break
+    ENDCASE
+    
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Set the New Task Title
+
+DECLARE task as Task Struct
+FUNCTION setTaskTitle(task)
+    flush the input stream
+    DISPLAY 'Please Enter the New Task Title:'
+    READ task.title
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Set the New Task Description
+
+DECLARE task as Task Struct
+FUNCTION setTaskDescription(task)
+    flush the input stream
+    DISPLAY 'Please Enter the New Task Description (Max 1000 Characters) :'
+    READ task.description
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Set the New Task Status Code
+
+DECLARE task as Task Struct
+FUNCTION setTaskStatusCode(task)
+    DECLARE maxChoice as Integer
+    DECLARE minChoice as Integer
+    DECLARE getChoiceNum(maxChoice, minChoice) as Function
+
+
+    DISPLAY '===== Please Select the New Task Status ====='
+    DISPLAY  '[ 1 ] - Not Started'
+    DISPLAY  '[ 2 ] - In Progress'
+    DISPLAY  '[ 3 ] - Done'
+    DISPLAY  '[ 4 ] - Canceled'
+
+    task.status_code = CALL FUNCTION getChoiceNum(4, 1)
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Set the New Task Priority Code
+
+DECLARE task as Task Struct
+FUNCTION setTaskPriorityCode(task)
+    DISPLAY '===== Please Select the New Task Priority ====='
+    DISPLAY '[ 1 ] - Low'
+    DISPLAY '[ 2 ] - Normal'
+    DISPLAY '[ 3 ] - Slightly Urgent'
+    DISPLAY '[ 4 ] - Urgent'
+
+    task.priority_code = CALL FUNCTION getChoiceNum(4, 1)
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Set the New Task Deadline
+DECLARE task as Task Struct
+FUNCTION setTaskDeadline(task)
+    DECLARE dateTarget as Date Struct
+    DECLARE dateValidation(dateTarget) as function
+
+    DISPLAY 'Please Enter the Deadline of the Task :'
+    CALL FUNCTION dateValidation(task.deadline)
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to create New Task Confirmation
+DECLARE task as Task Struct
+DECLARE username as Character pointer
+FUNCTION confirmTask(username, task)
+    DECLARE continueLoop as integer
+    DECLARE displayTask(task) as function
+    DECLARE confirmChoice as integer
+
+    set continueLoop as TRUE
+    DOWHILE (continueLoop = TRUE)
+        DISPLAY '================================='
+        DISPLAY 'Task Confirmation'
+        DISPLAY '==================================='
+        CALL FUNCTION displayTask(task)

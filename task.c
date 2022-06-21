@@ -54,7 +54,7 @@ int addTask(char *username) {
     printf("\n\n\tWelcome to Add Task Section\n\n");
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     
-    printf("\nPlease Enter the number of new tasks to be added: ");
+    printf("\nPlease Enter the Number of New Tasks to Be Added: ");
     numberOfTasks = getChoiceNum(10, 0);
 
     // if (!numberOfTasks)
@@ -62,7 +62,7 @@ int addTask(char *username) {
     tasks = (Task*)calloc(numberOfTasks, sizeof(Task));
 
     for (int i = 0; i < numberOfTasks; i++) {
-        printf("\n-New task (%i) to be added-", i + 1);
+        printf("\nNew task (%i) to be added", i + 1);
         //Record username of new task
         strcpy(tasks[i].username, username);
         //Enter category of new task
@@ -88,7 +88,7 @@ int addTask(char *username) {
 
 //Function to Select the New Task Category
 //Data Validation: "gerChoiceNum" Function is Used to Validate User Input
-int setTaskCategory(Task *task) {
+int setTaskCategory(Task *tasks) {
     
     printf("\n===== Please Select the New Task Category =====");
     printf("\n[ 1 ] - Personal");
@@ -99,18 +99,18 @@ int setTaskCategory(Task *task) {
     int categoryChoice = getChoiceNum(4, 1);
     switch(categoryChoice) {
         case 1:
-            strcpy(task -> category, "Personal");
+            strcpy(tasks -> category, "Personal");
             break;
         case 2:
-            strcpy(task -> category, "Work");
+            strcpy(tasks -> category, "Work");
             break;
         case 3:
-            strcpy(task -> category, "Social");
+            strcpy(tasks -> category, "Social");
             break;
         case 4:
             fflush(stdin);
             printf("Please Enter Your New Task Category :\n");
-            scanf("%[^\n]s", task -> category);
+            scanf("%[^\n]s", tasks -> category);
             break;
     };
     return 0;
