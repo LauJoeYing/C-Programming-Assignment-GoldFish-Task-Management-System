@@ -1,5 +1,7 @@
 #include "file.h"
 
+
+//File Handling Function to Check the Existence of the File
 FILE *checkFileExistence(char *fileName, char *fileHandling_method, int createFileIfNotExist) {
     while (1) {
         FILE *filePointer;

@@ -5,6 +5,8 @@
 //     getChoiceNum(6, 0);
 // }
 
+
+//Function to Display User Main Menu
 int user_menu() {
     printf("[ 1 ] - Add New Task\n");
     printf("[ 2 ] - Sort and View Tasks\n");
@@ -17,6 +19,8 @@ int user_menu() {
     printf("[ X ] - Exit\n");
 }; 
 
+
+//Function to Display Admin Main Menu
 int admin_menu() {
     printf("[ 1 ] - Recover User's Account\n");
     printf("[ 2 ] - Search User Tasks");
@@ -26,6 +30,9 @@ int admin_menu() {
     printf("[ X ] - Exit\n");
 };
 
+
+//Function to Prompt User for the Menu Choice Number Input
+//Data Validation: Validate User Input to Check if Choice Number Given by User is Within the Range of the Menu
 int getChoiceNum(int maxChoice, int minChoice) {
     char userInput[256];
     int userInput_length, choice;
@@ -63,6 +70,8 @@ int getChoiceNum(int maxChoice, int minChoice) {
 };
 
 
+
+//Function to Validate if Given Input is a Number
 int checkIsNumber(char *target) {
     int targetLength = strlen(target), validatedLength = 0;
     for (int i = 0; i < strlen(target); i++) {
@@ -77,6 +86,7 @@ int checkIsNumber(char *target) {
 };
 
 
+//Function to Convert the Entire User Input into Lower Case
 int toLower(char *str) {
     for(int i = 0; str[i]; i++){
         str[i] = tolower(str[i]);

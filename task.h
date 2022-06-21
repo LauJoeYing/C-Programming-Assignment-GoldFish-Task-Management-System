@@ -23,7 +23,7 @@ typedef struct Tasks {
 
 int addTask(char *username);
 int readTask(char *username);
-int editTask(char *username);
+int updateTask(char *username);
 int searchTask(char *username);
 int sortTask();
 int sortByStatusCode(int taskCount, Task *task, Task taskCopy, int ascendingOrder);

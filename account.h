@@ -21,7 +21,7 @@ typedef struct Accounts {
 } Account;
 
 int welcomePage();
-int registerUser(Account user);
+//int registerUser(Account user);
 int registration();
 int register_username(char *usernameTarget);
 int register_password(char *passwordTarget);

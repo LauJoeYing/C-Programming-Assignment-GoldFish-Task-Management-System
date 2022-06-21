@@ -1,0 +1,394 @@
+
+//account.c (10 functions)
+
+//The Welcome Page for Both Users and Admin
+FUNCTION welcomePage()
+    DECLARE option as Integer
+    DECLARE user as Account Struct
+    DOWHILE option = 0
+        DISPLAY 'Welcome to Goldfish Task Management System!'
+        DISPLAY '[ 1 ] - Register'
+        DISPLAY '[ 2 ] - Login'
+        DISPLAY 'Please Enter Your Choice Number:'
+        READ option
+
+        CASE OF option
+            1: CALL FUNCTION registration() 
+            2: CALL FUNCTION loginUser() FUNCTION
+            default:    option = 0
+                        break
+        ENDCASE
+    ENDDO
+ENDFUNCTION
+
+-----------------------------------------------------------------------------------------------
+
+//Registration Page for Both User and Admin
+FUNCTION registration()
+    DECLARE user as Account Struct
+    DECLARE fileAppender as file pointer
+    DECLARE checkFileExistence("user.txt", "a", 1) as FUNCTION
+    DECLARE register_username(user.username) as FUNCTION
+    DECLARE register_password(user.password) as FUNCTION
+    DECLARE register_name(user.name) as FUNCTION
+    DECLARE register_contactNum(user.contactNum) as FUNCTION
+    DECLARE register_dateOfBirth(&user.dateOfBirth) as FUNCTION
+    DECLARE register_email(user.email) as FUNCTION
+
+    CALL FUNCTION checkFileExistence("user.txt", "a", 1)
+    CALL FUNCTION register_username(user.username)
+    CALL FUNCTION register_password(user.password)
+    CALL FUNCTION register_name(user.name)
+    CALL FUNCTION register_contactNum(user.contactNum)
+    CALL FUNCTION register_dateOfBirth(&user.dateOfBirth) 
+    CALL FUNCTION register_email(user.email)
+
+    DISPLAY 'Confirming details...'
+    DISPLAY 'Welcome,' user.name
+    APPEND user into user.txt file 
+    close the user,txt file
+    DISPLAY 'Registration Successful!'
+ENDFUNCTION
+
+---------------------------------------------------------------------------------------
+
+//Function To Register the Username
+DECLARE usernameTarget as Character pointer 
+FUNCTION register_username(char *usernameTarget)  ##
+    
+    DECLARE userFileReader as file pointer
+    DECLARE validated as Integer
+    DECLARE match as Integer
+    DECLARE username[21] as Character Array
+    DECLARE usernameCopy[21] as Character Array
+    DECLARE existingUser as Account Struct
+
+    set validated to FALSE
+    set match to FALSE
+
+    DOWHILE (validated = FALSE)
+
+        flush the output buffer of the stream
+        DISPLAY  'Please Enter Your New Username:'
+        READ username
+        copy character string from usernameCopy to username
+        
+        CALL FUNCTION checkFileExistence ("user.txt", "r", 0)
+        WHILE (read the existingUser from the file with the size of Account using userFileReader)
+            covert existingUser.username to lowercase
+            IF (existingUser.username is not same as usernameCopy) THEN
+                DISPLAY 'Username is occupied! Please use Another Username.'
+                match = true
+                break
+            ENDIF
+        ENDWHILE
+
+        close the userFileReader
+
+        IF (match = TRUE) THEN
+            validated = TRUE
+            copy character string from username to usernameTarget
+        ENDIF
+
+    ENDDO
+
+ENDFUNCTION
+
+-------------------------------------------------------------------------------------------
+
+//Function To Register User Password
+
+DELCARE passwordTarget as Character pointer 
+FUNCTION register_password(char *passwordTarget)
+    
+    DELCARE password[21] as Character Array
+    DELCARE confirmPassword[21] as Character Array
+
+    WHILE TRUE
+
+        flush the output buffer of the stream
+        DISPLAY 'Please Enter Your New Password (8-20 characters):'
+        READ password
+
+        IF (strlen(password)<8 OR strlen(password)>20) THEN
+            DISPLAY 'Invalid Password! Please Ensure Your New Password have 8-20 Characters'
+            continue
+        ENDIF
+
+        flush the output buffer of the stream
+        DISPLAY 'Please Enter Your New Password Again:'
+        READ confirmPassword
+
+        IF confirmPassword not equal to password THEN
+            DISPLAY 'Invalid Input! Please Ensure That You Have Entered the Same Password!'
+            continue
+        ENDIF
+
+        DISPLAY 'Correct Password Format!\nCongrats! Your New Password has been Verified!'
+        copy character string from password to passwordTarget
+
+    ENDWHILE
+
+ENDFUNCTION
+
+---------------------------------------------------------------------------------------------------------
+
+//Function To Register User's Name
+
+DELCARE nameTarget as Character pointer 
+FUNCTION register_name(char *nameTarget)
+
+    DELCARE name[256] as Character Array
+    flush the output buffer of the stream
+    DISPLAY 'Please Enter Your Name:'
+    READ name
+    copy character string from name to nameTarget
+
+ENDFUNCTION
+
+-----------------------------------------------------------
+
+//Function To Register User's Contact Number
+
+DELCARE contactNumTarget as Character pointer 
+FUNCTION register_contactNum(char *contactNumTarget)
+
+    DELCARE contactNum[11] as Character Array
+
+    WHILE TRUE
+
+        flush the output buffer of the stream
+        DISPLAY 'Please Enter Your Contact Number (without'-'): 60'
+        READ contactNum
+
+        IF contactNum is a number THEN
+
+            IF contactNum[0] = '1' AND (contactNum[1] != '1' AND strlen(contactNum) == 9 OR contactNum[1] == '1' AND strlen(contactNum) == 10)) THEN
+                DISPLAY 'Correct Phone Number Format! Congrats! Your Phone Number has been Verified!'
+                copy character string from contactNum to contactNumTarget
+                break
+            ENDIF
+
+            DISPLAY 'Invalid Phone Number! Please Ensure Your Registered Phone Number have correct length!'
+            continue
+        ELSE 
+            DISPLAY 'Invalid Phone Number! Please Ensure Your Registered Phone Number contains only number!'
+            continue
+
+        ENDIF
+
+    ENDWHILE
+
+ENDFUNCTION
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Function To Register User's Date of Birth
+
+DECLARE dateOfBirthTarget as Date Struct
+FUNCTION register_dateOfBirth(Date *dateOfBirthTarget) 
+    
+    DISPLAY 'Please Enter Your Date of Birth:'
+    CALL FUNCTION dateValidation(dateOfBirthTarget)
+    DISPLAY 'Congrats! Your Date of Birth has been Verified!'
+
+ENDFUNCTION
+
+--------------------------------------------------------------------------------------------
+
+//Function To Register User's Email Address
+
+DECLARE emailTarget as Character pointer 
+FUNCTION register_email(char *emailTarget)
+
+    DECLARE email[321] as Character Array
+
+    WHILE TRUE
+        flush the output buffer of the stream
+        DISPLAY 'Please Enter Your Email:'
+        READ email
+
+        IF email contains '@' AND '.com' THEN
+            DISPLAY 'Congrats! Your Email has been Verified!'
+            copy character string from email to emailTarget
+            break
+        ENDIF
+
+        DISPLAY 'Wrong Email Format! Please Try Again!'
+        continue
+
+    ENDWHILE
+
+ENDFUNCTION
+
+--------------------------------------------------------------------------------------------
+
+//Login Page for Both User and Admin
+
+FUNCTION loginUser()
+    DECLARE found as Integer
+    DECLARE username[256] as Character Array
+    DECLARE password[256] as Character Array
+    DECLARE user as Account Struct
+    DECLARE userFileReader as file pointer
+
+    set found to FALSE
+
+    DISPLAY 'Login Page'
+    DISPLAY 'Please Enter Your Login Credentials Below:'
+
+    DOWHILE (found = FALSE)
+
+        CALL FUNCTION checkFileExistence("user.txt", "r", 0)
+        flush the output buffer of the stream
+        DISPLAY 'Username:'
+        READ username
+        covert username to lowercase
+
+        flush the output buffer of the stream
+        DISPLAY 'Password:'
+        READ password
+
+        WHILE (read the user from file with the size of Account using userFileReader) ##
+            covert existingUser.username to lowercase
+            IF ((user.username is same as username) AND (user.password is same as password)) THEN
+                DISPLAY 'Welcome back!', user.name
+                close userFileReader
+                found = TRUE
+                return user
+            ENDIF
+        ENDWHILE
+
+        IF (found = FALSE) THEN
+            DISPLAY 'Incorrect Login DetailS. Please enter the correct credentials!'
+        ENDIF
+
+    ENDWHILE
+
+ENDFUNCTION
+    
+-----------------------------------------------------------------------------
+
+//Function to Change Password
+
+DELCARE username as Character pointer 
+DELCARE password as Character pointer 
+FUNCTION changePassword(username, password)
+
+    DECLARE user as Account Struct
+    DECLARE confirmPassword[256] as Character array
+    DECLARE newPassword as Character pointer
+    DECLARE userFileReader as file pointer
+    DECLARE userFileWriter as file pointer
+    DECLARE passwordCorrect as Integer
+    DECLARE register_password as Function
+
+    set Found as FALSE
+    read user.txt file using userFileReader
+    open temp_user.txt file using userFileWriter
+    write temp_user.txt file using userFileWriter
+   
+    DOWHILE (passwordCorrect = FALSE)
+        flush the output buffer of the stream
+        DISPLAY 'Please Enter Your Current Password:'
+        READ confirmPassword
+
+        IF (confirmPassword is same as password) THEN
+            passwordCorrect = TRUE
+            break
+        
+        ELSE
+            DISPLAY 'Incorrect Password! Please Try Again!'
+            continue
+        ENDIF
+    ENDDO
+
+    flush the output buffer of the stream
+    CALL FUNCTION register_password(newPassword)
+    
+    WHILE (read user from file with the size of Account using userFileReader)
+        IF (user.username is not same as username) THEN
+            copy character string from newPassword to user.password
+        ENDIF
+        write user into the file with the size of Account using userFileWriter
+    ENDWHILE
+
+    close userFileReader
+    close userFileWriter
+    DISPLAY 'Done!'
+    remove user.txt
+    rename the temp_user.txt to user.txt
+
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+//admin.c (4 functions)
+
+//Function of Admin Main Page
+
+FUNCTION admPage()
+    DECLARE continueAdminChoice as Integer
+    DECLARE admUsername[] as Character Array
+    DECLARE getChoiceNum as Function
+    DECLARE adminChoice as Integer
+
+    set continueAdminChoice as TRUE
+
+    DOWHILE (continueAdminChoice = TRUE)
+        DISPLAY '======================='
+        DISPLAY 'Welcome to Admin Page!'
+        DISPLAY '======================='
+        DISPLAY '[ 1 ] - Recover User's Account'
+        DISPLAY '[ 2 ] - Update Admin Details'
+        DISPLAY '[ 3 ] - View All Tasks'
+        DISPLAY '[ 4 ] - Change Admin Account Password'
+        DISPLAY '[ 0 ] - Back to the Main Page'
+
+        CALL getChoiceNum(4, 0)
+
+        CASE OF adminChoice
+
+            1: 
+                CALL FUNCTION recoverUserAcct()
+                break
+
+            2:  CALL FUNCTION updateAdmDetail(admUsername)
+                break
+
+            3:  CALL FUNCTION readAllTask()
+                break
+
+            4:  CALL FUNCTION  ##################################
+                break
+
+            0:  continueAdminChoice = FALSE
+                break
+
+        ENDCASE
+    ENDWHILE
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Recover User Account In the Case of Forgot Password
+FUNCTION recoverUserAcct()
+    DECLARE
+
+
+
+
+
+
+
+
+
+
+//date.c (2 functions)
+
+//file.c (1 function)
+
+//menu.c (5 functions)
+
+//task.c (25 functions)
+
+total: 46 functions

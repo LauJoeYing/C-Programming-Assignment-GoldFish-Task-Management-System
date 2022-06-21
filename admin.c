@@ -1,11 +1,14 @@
 #include "admin.h"
 
+//Main
 int main() {
     admPage();
 
     return 0;
 };
 
+
+//Function of Admin Main Page
 int admPage() {
     int continueAdminChoice = 1;
     char admUsername[] = "weoyyang00";
@@ -43,10 +46,13 @@ int admPage() {
     return 0;
 };
 
+
+//Function to Recover User Account In the Case of Forgot Password
+//Autogenerate New Default Password for the Users
+//Format of New Password: Username + Last Six Characters of the Contact Number
 int recoverUserAcct() {
     char searchKey[21], searchSource[21], lastSixDigits[7];
     Account acct;
-    char lastSixDigit[7];
     FILE *acctFileReader, *acctFileWriter;
     int found = 0;
 
@@ -84,6 +90,8 @@ int recoverUserAcct() {
     return 0;
 };
 
+
+//Function to Update Admin Details
 int updateAdmDetail(char *username) {
     Account acct;
     FILE *acctFileReader, *acctFileWriter;
@@ -103,6 +111,9 @@ int updateAdmDetail(char *username) {
     return 0;
 };
 
+
+
+//Function to Display Admin's Current Details
 int displayAdmDetail(Account acct) {
     printf("\n[ 1 ]- Username\t\t: %s", acct.username);
     printf("\n[ 2 ]- Admin Name\t\t: %s", acct.name);
@@ -132,3 +143,5 @@ int displayAdmDetail(Account acct) {
     
     return 0;
 };
+
+

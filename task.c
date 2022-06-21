@@ -1,7 +1,8 @@
 #include "task.h"
 
+
 int taskManagement() {
-    char username[] = "niuniu";
+    char username[] = "niuniu";     ///////////////////////////////////////need to delete later
     int continueTaskManagement = 1;
     do {
         printf("\n===================================");
@@ -9,7 +10,7 @@ int taskManagement() {
         printf("\n===================================");
         printf("\n[ 1 ] - View All Tasks");
         printf("\n[ 2 ] - Add Task");
-        printf("\n[ 3 ] - Edit Task");
+        printf("\n[ 3 ] - Update Task");
         printf("\n[ 4 ] - Search Task");
         printf("\n[ 5 ] - Sort Tasks");
         printf("\n[ 6 ] - Delete Task");
@@ -23,7 +24,7 @@ int taskManagement() {
                 addTask(username);
                 break;
             case 3:
-                editTask(username);
+                updateTask(username);
                 break;
             case 4:
                 searchTask(username);
@@ -43,6 +44,8 @@ int taskManagement() {
     return 0;
 };
 
+
+//Function to Add Task
 int addTask(char *username) {
     Task *tasks;
     int numberOfTasks;
@@ -82,6 +85,9 @@ int addTask(char *username) {
     return 0;
 };
 
+
+//Function to Select the New Task Category
+//Data Validation: "gerChoiceNum" Function is Used to Validate User Input
 int setTaskCategory(Task *task) {
     
     printf("\n===== Please Select the New Task Category =====");
@@ -110,6 +116,8 @@ int setTaskCategory(Task *task) {
     return 0;
 };
 
+
+//Function to Set the New Task Title
 int setTaskTitle(Task *task) {
     fflush(stdin);
     printf("\nPlease Enter the New Task Title :\n");
@@ -118,6 +126,8 @@ int setTaskTitle(Task *task) {
     return 0;
 };
 
+
+//Function to Set the New Task Description
 int setTaskDescription(Task *task) {
     fflush(stdin);
     printf("\nPlease Enter the New Task Description (Max 1000 Characters) :\n");
@@ -126,6 +136,9 @@ int setTaskDescription(Task *task) {
     return 0;
 };
 
+
+//Function to Set the New Task Status Code
+//Data Validation: "gerChoiceNum" Function is Used to Validate User Input
 int setTaskStatusCode(Task *task) {
     printf("\n===== Please Select the New Task Status =====");
     printf("\n[ 1 ] - Not Started");
@@ -138,28 +151,31 @@ int setTaskStatusCode(Task *task) {
     return 0;
 };
 
+//Function to Set the New Task Priority Code
+//Data Validation: "gerChoiceNum" Function is Used to Validate User Input
 int setTaskPriorityCode(Task *task) {
     printf("\n===== Please Select the New Task Priority =====");
     printf("\n[ 1 ] - Low");
     printf("\n[ 2 ] - Normal");
     printf("\n[ 3 ] - Slightly Urgent");
     printf("\n[ 4 ] - Urgent\n");
-    
-    // status_code 1 = Low
-    // status_code 2 = Normal
-    // status_code 3 = Slightly Urgent
-    // status_code 4 = Urgent
+   
     task -> priority_code = getChoiceNum(4, 1);
 
     return 0;
 };
 
+
+//Function to Set the New Task Deadline
 int setTaskDeadline(Task *task) {
     printf("\nPlease Enter the Deadline of the Task : \n");
     dateValidation(&task -> deadline);   
     return 0;
 };
 
+
+//Create New Task Confirmation
+//Data Validation: "gerChoiceNum" Function is Used to Validate User Input
 int confirmTask(char *username, Task *task) {
     int continueLoop = 1;
     do {
@@ -218,6 +234,8 @@ int confirmTask(char *username, Task *task) {
     return 0;
 };
 
+
+//Function to Append the New Task Added into the Database
 int appendTask(char *username, Task task) {
     int taskId = 1;
     Task readTask;
@@ -238,6 +256,8 @@ int appendTask(char *username, Task task) {
     return 0;
 };
 
+
+//Function to Read Task
 int readTask(char *username) {
     Task task;
     FILE *taskFileReader;
@@ -260,6 +280,8 @@ int readTask(char *username) {
     return 0;
 };
 
+
+//Function for Admin to Read All Task of the Users
 int readAllTask() {
     Task task;
     FILE *taskFileReader;
@@ -276,6 +298,8 @@ int readAllTask() {
     return 0;
 };
 
+
+//Function to Display Tasks of the User
 int displayTask(Task *task) {
     printf("\nCategory\t\t: %s", task -> category);
     printf("\nTitle\t\t\t: %s", task -> title);
@@ -287,13 +311,15 @@ int displayTask(Task *task) {
     return 0;
 };
 
-//To Print Current Date & Time
+//Function To Display Current Date & Time
 int displayDatetime(struct tm datetime) {
     printf("%02d/%02d/%04d %02d:%02d:%02d", datetime.tm_mday, datetime.tm_mon + 1, datetime.tm_year + 1900, datetime.tm_hour, datetime.tm_min, datetime.tm_sec);
     
     return 0;
 };
 
+
+//Function to Display Current Task Status Code
 char *displayStatusCode(int statusCode) {
     switch(statusCode) {
         case 1:
@@ -311,6 +337,7 @@ char *displayStatusCode(int statusCode) {
     };
 };
 
+//Function to Display Current Task Priority Code
 char *displayPriorityCode(int priorityCode) {
     switch(priorityCode) {
         case 1:
@@ -328,7 +355,9 @@ char *displayPriorityCode(int priorityCode) {
     };
 };
 
-int editTask(char *username) {
+
+//Function to Edit Previous Task
+int updateTask(char *username) {
     char searchKey[256];
     Task task;
     FILE *taskFileReader, *taskFileWriter;
@@ -363,6 +392,8 @@ int editTask(char *username) {
     return 0;
 };
 
+
+//Function to Search Task Using Any Keywords Which Related to the Task
 int searchTask(char *username) {
     char searchKey[256], searchSource[1256];
     Task task;
@@ -396,6 +427,8 @@ int searchTask(char *username) {
     return 0;
 };
 
+
+//Function to Sort Tasks
 int sortTask() {
     printf("\n--- Sort By ---\n");
     printf("\n[ 1 ] - Title");
@@ -457,6 +490,8 @@ int sortTask() {
     return 0;
 };
 
+
+//Function to Sort the Task by the Task Status Code
 int sortByStatusCode(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {
@@ -471,6 +506,7 @@ int sortByStatusCode(int taskCount, Task *task, Task taskCopy, int ascendingOrde
     return 0;
 };
 
+//Function to Sort the Task by the Task Priority Code
 int sortByPriorityCode(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {
@@ -485,6 +521,8 @@ int sortByPriorityCode(int taskCount, Task *task, Task taskCopy, int ascendingOr
     return 0;
 };
 
+
+//Function to Sort the Task by the Task Title
 int sortByTitle(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {
@@ -499,6 +537,8 @@ int sortByTitle(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     return 0;
 };
 
+
+//Function to Sort the Task by the Deadline
 int sortByDeadline(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {
@@ -518,6 +558,7 @@ int sortByDeadline(int taskCount, Task *task, Task taskCopy, int ascendingOrder)
     return 0;
 };
 
+
 int sortByDatetimeOfCreation(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {
@@ -534,6 +575,8 @@ int sortByDatetimeOfCreation(int taskCount, Task *task, Task taskCopy, int ascen
     return 0;
 };
 
+
+//Function to Delete Task
 int deleteTask(char *username) {
     char searchKey[256];
     Task task;

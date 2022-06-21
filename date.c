@@ -5,6 +5,8 @@
 #include "date.h"
 #include "menu.h"
 
+
+//Function to Validate the User Date Input
 int dateValidation(Date *dateTarget) {
     while(1) {
         char dateInput[11], dateInputCopy[11];
@@ -51,6 +53,7 @@ int dateValidation(Date *dateTarget) {
     return 0;
 };
 
+//Function to Display Date Error Message
 int printDateError() {
     printf("Invalid date entry. Please try again.\n");
     
