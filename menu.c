@@ -50,7 +50,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
             if (userInput_length == 1 && tolower(userInput[0]) == 'x') {
                     char userExitInput[256];
                     int userExitInput_length;
-                    printf("\nConfirm exit?\n[ X ] - To Confirm Exit]\n");
+                    printf("\nConfirm exit?\n[ X ] - To Confirm Exit\n");
                     scanf("%s",&userExitInput);
                     userExitInput_length = strlen(userExitInput);
                     if (userExitInput_length == 1 && tolower(userExitInput[0]) == 'x') {
