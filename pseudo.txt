@@ -8,14 +8,14 @@ FUNCTION welcomePage()
     DECLARE user as Account Struct
     DOWHILE option = 0
         DISPLAY 'Welcome to Goldfish Task Management System!'
-        DISPLAY '[ 1 ] - Register'
-        DISPLAY '[ 2 ] - Login'
+        DISPLAY '[ 1 ] - 'Login
+        DISPLAY '[ 2 ] - Register'
         DISPLAY 'Please Enter Your Choice Number:'
         READ option
 
         CASE OF option
-            1: CALL FUNCTION registration() 
-            2: CALL FUNCTION loginUser() FUNCTION
+            1: CALL FUNCTION loginUser() 
+            2: CALL FUNCTION registration()
             default:    option = 0
                         break
         ENDCASE

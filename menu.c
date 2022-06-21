@@ -1,31 +1,24 @@
 #include "menu.h"
 
-// void main() {  
-//     printf("\nWelcome to the Main Menu of Goldfish Personal Task Management System!\n");
-//     getChoiceNum(6, 0);
-// }
-
-
 //Function to Display User Main Menu
 int user_menu() {
-    printf("[ 1 ] - Add New Task\n");
-    printf("[ 2 ] - Sort and View Tasks\n");
-    printf("[ 3 ] - View All Tasks\n");
-    printf("[ 4 ] - Update Task\n");
-    printf("[ 5 ] - Delete Task\n");
-    printf("[ 6 ] - Search Task\n");
-    printf("[ 7 ] - Change Password\n");
-    printf("[ X ] - Exit\n");
+    printf("\n[ 1 ] - Add New Task");
+    printf("\n[ 2 ] - Sort and View Tasks");
+    printf("\n[ 3 ] - View All Tasks");
+    printf("\n[ 4 ] - Update Task");
+    printf("\n[ 5 ] - Delete Task");
+    printf("\n[ 6 ] - Search Task");
+    printf("\n[ 7 ] - Edit Profile Details");
+    printf("\n[ 8 ] - Change Password");
+    printf("\n[ 0 ] - Log Out\n");
 }; 
-
 
 //Function to Display Admin Main Menu
 int admin_menu() {
-    printf("[ 1 ] - Recover User's Account\n");
-    printf("[ 2 ] - Search User Tasks");
-    printf("[ 3 ] - Update Admin Details\n");
-    printf("[ 4 ] - Change Admin Password\n");
-    printf("[ X ] - Exit\n");
+    printf("\n[ 1 ] - Recover User's Account");
+    printf("\n[ 2 ] - Edit Profile Details");
+    printf("\n[ 3 ] - Change Password");
+    printf("\n[ 0 ] - Log Out\n");
 };
 
 
@@ -36,7 +29,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
     int userInput_length, choice;
 
     while (1) {
-        printf("\nSelect a choice\t: ");
+        printf("Please Enter Your Choice Number:\t\n");
         scanf("%s",&userInput);
         if (checkIsNumber(userInput)) {
             choice = atoi(userInput);

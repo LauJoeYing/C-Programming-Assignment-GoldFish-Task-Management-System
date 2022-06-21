@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "account.h"
 #include "file.h"
 #include "menu.h"
 #include "date.h"
@@ -20,8 +19,6 @@ typedef struct Accounts {
     char userType;
 } Account;
 
-int welcomePage();
-//int registerUser(Account user);
 int registration();
 int register_username(char *usernameTarget);
 int register_password(char *passwordTarget);
@@ -30,7 +27,8 @@ int register_contactNum(char *contactNumTarget);
 int register_dateOfBirth(Date *dateOfBirthTarget);
 int register_email(char *emailTarget);
 Account loginUser();
-int getUserData();
 int changePassword(char *username, char *password);
+int updateUserDetail(char *username);
+int displayUserDetail(Account user);
 
 #endif
