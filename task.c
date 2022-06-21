@@ -240,7 +240,7 @@ int appendTask(char *username, Task task) {
     int taskId = 1;
     Task readTask;
     FILE *taskFileAppenderPlus;
-    taskFileAppenderPlus = checkFileExistence("task_recordtry.txt", "a+", 1);
+    taskFileAppenderPlus = checkFileExistence("task_record.txt", "a+", 1);
     while (fread(&readTask, sizeof(Task), 1, taskFileAppenderPlus)) {
         if (strcmp(readTask.username, username) ==  0) {
             taskId++;
@@ -262,7 +262,7 @@ int readTask(char *username) {
     Task task;
     FILE *taskFileReader;
     int found = 0;
-    taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);    
+    taskFileReader = checkFileExistence("task_record.txt", "r", 0);    
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         if (strcmp(task.username, username) == 0) {
             printf("\nTask ID\t\t\t: %03d", task.taskId);
@@ -285,7 +285,7 @@ int readTask(char *username) {
 int readAllTask() {
     Task task;
     FILE *taskFileReader;
-    taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);    
+    taskFileReader = checkFileExistence("task_record.txt", "r", 0);    
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         printf("\nUsername\t\t: %s", task.username);
         printf("\nTask ID\t\t\t: %03d", task.taskId);
@@ -368,8 +368,8 @@ int updateTask(char *username) {
     scanf("%[^\n]s", searchKey);
     int taskId = atoi(searchKey);
 
-    taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0); 
-    taskFileWriter = fopen("temp_task_recordtry.txt", "w");   
+    taskFileReader = checkFileExistence("task_record.txt", "r", 0); 
+    taskFileWriter = fopen("temp_task_record.txt", "w");   
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         if ((strcmp(task.username, username) == 0) && (task.taskId == taskId)) {
             found++;
@@ -384,8 +384,8 @@ int updateTask(char *username) {
     fclose(taskFileReader);
     fclose(taskFileWriter);
     printf("\nDone!\n");
-    remove("task_recordtry.txt");
-    rename("temp_task_recordtry.txt", "task_recordtry.txt");
+    remove("task_record.txt");
+    rename("temp_task_record.txt", "task_record.txt");
     if (!found) {
         printf("\nNo Record Found With the Task ID. Please Try Again!\n");
     };
@@ -405,7 +405,7 @@ int searchTask(char *username) {
     scanf("%[^\n]s", searchKey);
     toLower(searchKey);
 
-    taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0);    
+    taskFileReader = checkFileExistence("task_record.txt", "r", 0);    
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         strcpy(searchSource, task.title);
         strcat(searchSource, task.description);
@@ -592,8 +592,8 @@ int deleteTask(char *username) {
     scanf("%[^\n]s", searchKey);
     int taskId = atoi(searchKey);
 
-    taskFileReader = checkFileExistence("task_recordtry.txt", "r", 0); 
-    taskFileWriter = fopen("temp_task_recordtry.txt", "w");   
+    taskFileReader = checkFileExistence("task_record.txt", "r", 0); 
+    taskFileWriter = fopen("temp_task_record.txt", "w");   
     while(fread(&task, sizeof(Task), 1, taskFileReader)) {
         if (strcmp(task.username, username) == 0) {
             if (task.taskId == taskId) {
@@ -622,8 +622,8 @@ int deleteTask(char *username) {
     fclose(taskFileReader);
     fclose(taskFileWriter);
     printf("\nDone!\n");
-    remove("task_recordtry.txt");
-    rename("temp_task_recordtry.txt", "task_recordtry.txt");
+    remove("task_record.txt");
+    rename("temp_task_record.txt", "task_record.txt");
     if (!found) {
         printf("\nNo record found with the task id. Please try again!\n");
     };
