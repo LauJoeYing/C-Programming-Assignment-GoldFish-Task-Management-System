@@ -22,6 +22,7 @@ int userPage(char *userUsername, char *userPassword) {
                 readTask(userUsername);
                 break;
             case 4:
+                readTask(userUsername);
                 updateTask(userUsername);
                 break;
             case 5:

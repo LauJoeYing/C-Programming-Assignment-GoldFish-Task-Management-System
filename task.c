@@ -1,50 +1,6 @@
 #include "task.h"
 
 
-int taskManagement() {
-    char username[] = "niuniu";     ///////////////////////////////////////need to delete later
-    int continueTaskManagement = 1;
-    do {
-        printf("\n===================================");
-        printf("\n\tTask Management");
-        printf("\n===================================");
-        printf("\n[ 1 ] - View All Tasks");
-        printf("\n[ 2 ] - Add Task");
-        printf("\n[ 3 ] - Update Task");
-        printf("\n[ 4 ] - Search Task");
-        printf("\n[ 5 ] - Sort Tasks");
-        printf("\n[ 6 ] - Delete Task");
-        printf("\n[ 0 ] - Back To the Main Page");
-        int taskManagementChoice = getChoiceNum(6, 0);
-        switch (taskManagementChoice) {
-            case 1:
-                readTask(username);
-                break;
-            case 2:
-                addTask(username);
-                break;
-            case 3:
-                updateTask(username);
-                break;
-            case 4:
-                searchTask(username);
-                break;
-            case 5:
-                sortTask(username);
-                break;
-            case 6:
-                deleteTask(username);
-                break;
-            case 0:
-                continueTaskManagement = 0;
-                break;
-        }
-    } while (continueTaskManagement);
-
-    return 0;
-};
-
-
 //Function to Add Task
 int addTask(char *username) {
     Task *tasks;
@@ -185,7 +141,7 @@ int confirmTask(char *username, Task *task) {
         printf("\n===================================");
         displayTask(task);
         int confirmChoice;
-        printf("\n--- Confirm task details? ---");
+        printf("\n--- Confirm Task Details? ---");
         printf("\n[ 1 ] - Confirm");
         printf("\n[ 2 ] - Modify\n");
         confirmChoice = getChoiceNum(2, 1);
@@ -229,7 +185,7 @@ int confirmTask(char *username, Task *task) {
         };
     } while (continueLoop);
 
-    printf("\nRecording your task....");
+    printf("\nRecording Your Task....");
     
     return 0;
 };
@@ -275,7 +231,7 @@ int readTask(char *username) {
     fclose(taskFileReader);
     printf("\nNumber of Task(s) Created : %i\n", found);
     if (!found) {
-        printf("\nNo record found. Add new task now :)\n");
+        printf("\nNo Record Found. Add New Task Now! \n");
     };
     return 0;
 };
@@ -364,7 +320,8 @@ int updateTask(char *username) {
     int found = 0;
 
     fflush(stdin);
-    printf("\nTask ID to be edited : ");
+    
+    printf("\nTask ID To Be Edited : ");
     scanf("%[^\n]s", searchKey);
     int taskId = atoi(searchKey);
 

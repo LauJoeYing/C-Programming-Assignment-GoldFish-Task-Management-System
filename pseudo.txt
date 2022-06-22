@@ -910,6 +910,8 @@ FUNCTION confirmTask(username, task)
     DECLARE continueLoop as integer
     DECLARE displayTask(task) as function
     DECLARE confirmChoice as integer
+    DECLARE modifyChoice as integer
+    
 
     set continueLoop as TRUE
     DOWHILE (continueLoop = TRUE)
@@ -917,3 +919,278 @@ FUNCTION confirmTask(username, task)
         DISPLAY 'Task Confirmation'
         DISPLAY '==================================='
         CALL FUNCTION displayTask(task)
+
+        DISPLAY 'Confirm task details?'
+        DISPLAY '[ 1 ] - Confirm'
+        DISPLAY '[ 2 ] - Modify'
+        confirmChoice = CALL FUNCTION getChoiceNum(2, 1)
+
+        CASE OF confirmChoice
+            1:
+                continueLoop = FALSE
+                break
+
+            2:
+                DISPLAY 'Please Select the Task Field to be Modified:'
+                DISPLAY '[ 1 ] - Category'
+                DISPLAY '[ 2 ] - Title'
+                DISPLAY '[ 3 ] - Description'
+                DISPLAY '[ 4 ] - Status'
+                DISPLAY '[ 5 ] - Priority'
+                DISPLAY '[ 6 ] - Deadline'
+                DISPLAY '[ 0 ] - Back'
+
+                modifyChoice = CALL FUNCTION getChoiceNum(6, 0)
+
+                CASE OF modifyChoice
+                    1: 
+                        CALL FUNCTION setTaskCategory(task)
+                        break
+                    
+                    2:
+                        CALL FUNCTION setTaskTitle(task)
+                        break
+
+                    3:  
+                        CALL FUNCTION setTaskDescription(task)
+                        break
+
+                    4:  
+                        CALL FUNCTION setTaskStatusCode(task)
+                        break
+
+                    5: 
+                        CALL FUNCTION setTaskPriorityCode(task)
+                        break
+
+                    6: 
+                        CALL FUNCTION etTaskDeadline(task)
+                        break
+
+                    0: 
+                        continueLoop = FALSE
+                        break
+        ENDCASE
+    ENDDO
+    DISPLAY 'Recording Your Task....'
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Append the New Task Added into the Database
+DECLARE task as Task Struct
+DECLARE username as Character pointer
+FUNCTION appendTask(username, task)
+    DECLARE taskId as integer
+    DECLARE readTask as Task Struct
+    DECLARE taskFileAppenderPlus as file pointer
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist) as function
+
+    taskFileAppenderPlus = checkFileExistence("task_record.txt", "a+", 1)
+
+    WHILE (read readtask from the file with the size of Task using taskFileAppenderPlus)
+        IF (readTask.username is same as username) THEN
+            taskId = taskId + 1
+        ENDIF
+    ENDWHILE
+
+    task.taskId = taskId
+    task.datetime_of_creation = record current local time and date 
+    write task into the file with the size of Task using taskFileAppenderPlus
+    close taskFileAppenderPlus
+    DISPLAY 'Done!'
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Read Task
+DECLARE username as Character pointer
+FUNCTION readTask(username)
+    DECLARE task as Task Struct
+    DECLARE taskFileReader as file pointer
+    DECLARE found as integer
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist) as function
+
+    set found as FALSE
+    taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
+
+    WHILE (read task from the file with the size of Task using taskFileReader)
+        IF (task.username is same as username) THEN
+            DISPLAY 'Task ID:', task.taskId
+            DISPLAY 'Datetime of Creation', task.datetime_of_creation
+            CALL FUNCTION displayTask(task)
+            found = TRUE   
+        ENDIF
+    ENDWHILE
+    close taskFileReader
+    DISPLAY 'Number of Task(s) Created :', found
+
+    IF (found = FALSE) THEN
+        DISPLAY 'No Record Found. Add New Task Now!'
+    ENDIF
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function for Admin to Read All Task of the Users
+FUNCTION readAllTask() 
+    DECLARE task as Task Struct
+    DECLARE taskFileReader as file pointer
+    DECLARE fileName as character pointer
+    DECLARE fileHandling_method as character pointer
+    DECLARE createFileIfNotExist as integer
+    DECLARE checkFileExistence(fileName, fileHandling_method, createFileIfNotExist) as function
+
+    taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
+
+    WHILE (read task from the file with the size of Task using taskFileReader)
+        DISPLAY 'Username:', task.username
+        DISPLAY 'Task ID:', task.taskId
+        DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+        CALL FUCNTION displayTask(task)
+    ENDWHILE
+    close taskFileReader
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+
+//Function to Display Tasks of the User
+DECLARE task as Task Struct
+FUNCTION displayTask(task) 
+    DISPLAY 'Category:', task.category
+    DISPLAY 'Title:', task.title
+    DISPLAY 'Description:', task.description
+    DISPLAY 'Status:', task.status_code
+    DISPLAY 'Priority:', task.priority_code
+    DISPLAY 'Deadline (DD/MM/YYYY):', task.deadline.day, task.deadline.month, task.deadline.year
+ENDFUNCTION
+
+
+-----------------------------------------------------------------------------
+
+//Function To Display Current Date & Time
+DECLARE datetime as Struct tm
+FUNCTION displayDatetime(datetime)
+    DISPLAY datetime.tm_mday, datetime.tm_mon + 1, datetime.tm_year + 1900
+    DISPLAY datetime.tm_hour, datetime.tm_min, datetime.tm_sec
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Display Current Task Status Code
+DECLARE statusCode as integer
+FUNCTION displayStatusCode(statusCode) 
+    CASE OF statusCode
+        1:
+            return "Not Started"
+            break
+
+        2:
+            return "In Progress"
+            break
+
+        3:
+            return "Done";
+            break
+
+        4:
+            return "Canceled"
+            break
+    ENDCASE
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Display Current Task Priority Code
+DECLARE priorityCode as integer
+FUNCTION displayPriorityCode(priorityCode)
+    CASE OF statusCode
+        1:
+            return "Low"
+            break
+
+        2:
+            return "Normal"
+            break
+
+        3:
+            return "Slightly Urgent"
+            break
+
+        4:
+            return "Urgent"
+            break
+    ENDCASE
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Edit Previous Task
+DECLARE username as Character pointer
+FUNCTION updateTask(username) 
+    DECLARE searchKey[256] as character array
+    DECLARE task as Task Struct
+    DECLARE taskFileReader as file pointer
+    DECLARE taskFileWriter as file pointer
+    DECLARE found as integer
+    DECLARE taskId as integer
+    DECLARE confirmTask(username, task) as function
+
+    set found as FALSE
+    flush the input stream
+    DISPLAY 'Task ID to be edited :'
+    READ searchKey
+    taskId = convert searchKey to integer
+
+    taskFileReader = CALL FUCNTION checkFileExistence("task_record.txt", "r", 0)
+    open temp_task_record.txt in write mode using taskFileWriter 
+
+    WHILE (read task from the file with the size of Task using taskFileReader)
+        IF ((task.username is same as username) AND (task.taskId == taskId) THEN
+            found = found + 1
+            DISPLAY 'Task ID:', task.taskId
+            DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+            CALL FUCNTION confirmTask(username, task)
+        ENDIF
+        write task into the file with the size of Task using taskFileWriter
+    ENDWHILE
+    close taskFileReader
+    close taskFileWriter
+    DISPLAY 'Done!'
+    remove task_record.txt
+    rename temp_task_record.txt to task_record.txt
+
+    IF (found = FALSE)
+        DISPLAY  'No Record Found With the Task ID. Please Try Again!'
+    ENDIF
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Search Task Using Any Keywords Which Related to the Task
+DECLARE username as Character pointer
+FUNCTION searchTask(char *username)
+    DECLARE searchKey[256] as character array
+    DECLARE searchSource[1256] as character array
+    DECLARE task as Task Struct
+    DECLARE taskFileReader as file pointer
+    DECLARE found as integer
+
+    set found as FALSE
+    flush the input stream
+    DISPLAY 'Search :'
+    READ searchKey
+    convert searchKey into lowercase
+
+    taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
+    WHILE (read task from the file with the size of Task using taskFileReader)
+        copy character string from task.title to searchSource
+
+
