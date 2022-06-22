@@ -68,6 +68,7 @@ Account welcomePage()
                 break;
 
             case 0:
+                printf("\nThank you for using Goldfish Task Management System! Have a nice day!\n\n");
                 exit(0);
                 break;
         }   
