@@ -271,10 +271,30 @@ int updateUserDetail(char *username) {
     userFileReader = checkFileExistence("user.txt", "r", 0);
     userFileWriter = fopen("temp_user.txt", "w");
     while (fread(&user, sizeof(Account), 1, userFileReader)) {
-        displayUserDetail(user);
+        if(strcmp(username, user.username) == 0) {
+            
+            printf("\nUsername\t\t: %s", user.username);
+            printf("\nName\t\t\t: %s", user.name);
+            printf("\n[ 1 ] - Contact Number\t: 60%s", user.contactNum);
+            printf("\n[ 2 ] - Date of Birth\t: %02d/%02d/%04d", user.dateOfBirth.day, user.dateOfBirth.month, user.dateOfBirth.year);
+            printf("\n[ 3 ] - Email Address\t: %s", user.email);
 
+            int editChoice = getChoiceNum(3, 1);
+            switch (editChoice) {
+                case 1:
+                    register_contactNum(user.contactNum);
+                    break;
+                case 2:
+                    register_dateOfBirth(&user.dateOfBirth);
+                    break;
+                case 3:
+                    register_email(user.email);
+                    break;
+            }
+            
+        }
+        fwrite(&user, sizeof(Account), 1, userFileWriter);
     };
-    fwrite (&user, sizeof(Account), 1, userFileWriter);
     fclose(userFileReader);
     fclose(userFileWriter);
     printf("\nDone!\n");
@@ -284,26 +304,25 @@ int updateUserDetail(char *username) {
     return 0;
 };
 
-//Function to Display User's Current Details
-int displayUserDetail(Account user) {
-    printf("\nUsername\t\t: %s", user.username);
-    printf("\nName\t\t: %s", user.name);
-    printf("\n[ 1 ] - Contact Number\t: %s", user.contactNum);
-    printf("\n[ 2 ] - Date of Birth\t: %02d/%02d-%04d", user.dateOfBirth.day, user.dateOfBirth.month, user.dateOfBirth.year);
-    printf("\n[ 3 ] - Email Address\t: %s", user.email);
-    fflush(stdin);
-    int editChoice = getChoiceNum(3, 1);
-    switch (editChoice) {
-        case 1:
-            register_contactNum(user.contactNum);
-            break;
-        case 2:
-            register_dateOfBirth(&user.dateOfBirth);
-            break;
-        case 3:
-            register_email(user.email);
-            break;
-    }
+// //Function to Display User's Current Details
+// int displayUserDetail(Account user) {
+//     printf("\nUsername\t\t: %s", user.username);
+//     printf("\nName\t\t\t: %s", user.name);
+//     printf("\n[ 1 ] - Contact Number\t: 60%s", user.contactNum);
+//     printf("\n[ 2 ] - Date of Birth\t: %02d/%02d/%04d", user.dateOfBirth.day, user.dateOfBirth.month, user.dateOfBirth.year);
+//     printf("\n[ 3 ] - Email Address\t: %s", user.email);
+//     int editChoice = getChoiceNum(3, 1);
+//     switch (editChoice) {
+//         case 1:
+//             register_contactNum(user.contactNum);
+//             break;
+//         case 2:
+//             register_dateOfBirth(&user.dateOfBirth);
+//             break;
+//         case 3:
+//             register_email(user.email);
+//             break;
+//     }
     
-    return 0;
-};
+//     return 0;
+// };
