@@ -63,8 +63,8 @@ FUNCTION register_username(usernameTarget)
     DECLARE userFileReader as file pointer
     DECLARE validated as Integer
     DECLARE match as Integer
-    DECLARE username[21] as Character Array
-    DECLARE usernameCopy[21] as Character Array
+    DECLARE username as Character Array with length of 21
+    DECLARE usernameCopy as Character Array with length of 21
     DECLARE existingUser as Account Struct
     DECLARE fileName as character pointer
     DECLARE fileHandling_method as character pointer
@@ -109,8 +109,8 @@ ENDFUNCTION
 DELCARE passwordTarget as Character pointer 
 FUNCTION register_password(passwordTarget)
     
-    DELCARE password[21] as Character Array
-    DELCARE confirmPassword[21] as Character Array
+    DELCARE password as Character Array with length of 21
+    DELCARE confirmPassword as Character Array with length of 21
 
     WHILE TRUE
 
@@ -146,7 +146,7 @@ ENDFUNCTION
 DELCARE nameTarget as Character pointer 
 FUNCTION register_name(nameTarget)
 
-    DELCARE name[256] as Character Array
+    DELCARE name as Character Array with length of 256
     flush the input stream
     DISPLAY 'Please Enter Your Name:'
     READ name
@@ -161,7 +161,7 @@ ENDFUNCTION
 DELCARE contactNumTarget as Character pointer 
 FUNCTION register_contactNum(contactNumTarget)
 
-    DELCARE contactNum[11] as Character Array
+    DELCARE contactNum as Character Array with length of 11
 
     WHILE TRUE
 
@@ -209,7 +209,7 @@ ENDFUNCTION
 DECLARE emailTarget as Character pointer 
 FUNCTION register_email(emailTarget)
 
-    DECLARE email[321] as Character Array
+    DECLARE email as Character Array with length of 321
 
     WHILE TRUE
         flush the input stream
@@ -235,8 +235,8 @@ ENDFUNCTION
 
 FUNCTION loginUser()
     DECLARE found as Integer
-    DECLARE username[256] as Character Array
-    DECLARE password[256] as Character Array
+    DECLARE password as Character Array with length of 256
+    DECLARE username as Character Array with length of 256
     DECLARE user as Account Struct
     DECLARE userFileReader as file pointer
     DECLARE fileName as character pointer
@@ -288,7 +288,7 @@ DELCARE password as Character pointer
 FUNCTION changePassword(username, password)
 
     DECLARE user as Account Struct
-    DECLARE confirmPassword[256] as Character array
+    DECLARE confirmPassword as Character array with length of 256
     DECLARE newPassword as Character pointer
     DECLARE userFileReader as file pointer
     DECLARE userFileWriter as file pointer
@@ -344,7 +344,7 @@ ENDFUNCTION
 INCLUDE admin.h as header file
 FUNCTION admPage()
     DECLARE continueAdminChoice as Integer
-    DECLARE admUsername[] as Character Array
+    DECLARE admUsername as Character Array
     DECLARE maxChoice as Integer
     DECLARE minChoice as Integer
     DECLARE getChoiceNum(maxChoice, minChoice) as Function
@@ -385,14 +385,14 @@ ENDFUNCTION
 //Function to Recover User Account In the Case of Forgot Password
 FUNCTION recoverUserAcct()
 
-    DECLARE searchKey[21] as Character Array
-    DECLARE searchSource[21] as Character Array
-    DECLARE lastSixDigits[7] as Character Array
+    DECLARE searchKey as Character Array with length of 21
+    DECLARE searchSource as Character Array with length of 21
+    DECLARE lastSixDigit as Character Array with length of 7
     DECLARE acct as Account Struct
     DECLARE userFileReader as file pointer
     DECLARE userFileWriter as file pointer
     DECLARE found as Integer
-    DECLARE newPass[50] as Character
+    DECLARE newPass as Character Array with length of 50
     DECLARE fileName as character pointer
     DECLARE fileHandling_method as character pointer
     DECLARE createFileIfNotExist as integer
@@ -515,8 +515,8 @@ INCLUDE menu.h as header file
 
 FUNCTION dateValidation(Date *dateTarget)
 
-    DECLARE dateInput[11] as Character Array
-    DECLARE dateInputCopy[11] as Character Array
+    DECLARE dateInput as Character Array with length of 11
+    DECLARE dateInputCopy as Character Array with length of 11
     DECLARE DELIMITER as Constant Character
     DECLARE token as Character
     DECLARE day as Integer
@@ -672,10 +672,10 @@ ENDFUNCTION
 DECLARE maxChoice as integer
 DECLARE minChoice as integer
 FUNCTION getChoiceNum(maxChoice, minChoice)
-    DECLARE userInput[256] as character array
+    DECLARE userInput as character array with length of 256
     DECLARE userInput_length as integer
     DECLARE choice as integer
-    DECLARE userExitInput[256] as character array
+    DECLARE userExitInput as character array with length of 256
     DECLARE userExitInput_length as integer
 
     WHILE TRUE
@@ -1135,7 +1135,7 @@ ENDFUNCTION
 //Function to Edit Previous Task
 DECLARE username as Character pointer
 FUNCTION updateTask(username) 
-    DECLARE searchKey[256] as character array
+    DECLARE searchKey as character array with length of 256
     DECLARE task as Task Struct
     DECLARE taskFileReader as file pointer
     DECLARE taskFileWriter as file pointer
