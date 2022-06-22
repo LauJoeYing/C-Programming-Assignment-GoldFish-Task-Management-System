@@ -520,6 +520,7 @@ int sortByDeadline(int taskCount, Task *task, Task taskCopy, int ascendingOrder)
 };
 
 
+//Function to Sort the Task by the date and local time of creation
 int sortByDatetimeOfCreation(int taskCount, Task *task, Task taskCopy, int ascendingOrder) {
     for(int i = 0; i < taskCount; i++) {
         for(int j = (i+1); j < taskCount; j++) {

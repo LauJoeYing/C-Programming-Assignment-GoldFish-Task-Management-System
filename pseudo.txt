@@ -1196,10 +1196,350 @@ FUNCTION searchTask(char *username)
         convert searchSource to lowercase
 
         IF (task.username is same as username) AND (searchSource is same as searchKey)) THEN
-        DISPLAY 'Task ID:', task.taskId
-        DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+            DISPLAY 'Task ID:', task.taskId
+            DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+            CALL FUNCTION displayTask(task)
+            found = found + 1
+        ENDIF
+    ENDWHILE
+    close (taskFileReader)
+    DISPLAY 'Number of Task(s) Found :', found
+
+    IF (found as FALSE) THEN
+        DISPLAY 'No record found. Add new task now:'
+    ENDIF
+
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Sort Tasks
+DECLARE username as Character pointer
+FUNCTION sortTask(username) 
+    DECLARE sortChoice as integer
+    DECLARE orderChoice as integer
+    DECLARE taskFileReader as file pointer
+    DECLARE task as Task Struct Pointer
+    DECLARE taskCopy as Task Struct
+    DECLARE taskCount as integer
+
+    DISPLAY  '--- Sort By ---'
+    DISPLAY '[ 1 ] - Title'
+    DISPLAY '[ 2 ] - Status'
+    DISPLAY '[ 3 ] - Priority'
+    DISPLAY '[ 4 ] - Deadline'
+    DISPLAY '[ 5 ] - Datetime of Creation'
+    DISPLAY '[ 0 ] - Back'
+
+    sortChoice = CALL FUNCTION getChoiceNum(5, 0)
+
+    IF (sortChoice = TRUE) THEN
+        DISPLAY '--- Order By ---'
+        DISPLAY '[ 1 ] - Descending'
+        DISPLAY '[ 2 ] - Ascending'
+        orderChoice = CALL FUNCTION getChoiceNum(2, 1)
+
+        taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
+        set taskFileReader position to end of file
+        allocates memory of the total task size in taskFileReader to task
+
+        LOOP i FROM 0 to taskCount STEP 1
+            read task[i] from the file with the size of Task using taskFileReader
+            NEXT i
+        ENDLOOP
+
+        CASE OF sortChoice
+            1:
+                CALL FUNCTION sortByTitle(taskCount, task, taskCopy, orderChoice-1)
+                break
+
+            2:
+                CALL FUNCTION sortByStatusCode(taskCount, task, taskCopy, orderChoice-1)
+                break
+
+            3:
+                CALL FUNCTION sortByPriorityCode(taskCount, task, taskCopy, orderChoice-1)
+                break
+
+            4:
+                CALL FUNCTION sortByDeadline(taskCount, task, taskCopy, orderChoice-1)
+                break
+            
+            5:
+                CALL FUNCTION sortByDatetimeOfCreation(taskCount, task, taskCopy, orderChoice-1)
+                break
+
+            0: break
+        ENDCASE
+
+        LOOP i FROM 0 To taskCount STEP 1
+            IF (task[i].username is same as username) THEN
+                DISPLAY 'Task ID:', task[i].taskId
+                DISPLAY 'Datetime of Creation:', task[i].datetime_of_creation
+                CALL FUNCTION displayTask(task[i])
+            ENDIF
+            NEXT i
+        ENDLOOP
+
+        close taskFileReader
+    ENDIF
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Sort the Task by the Task Status Code
+DECLARE taskCount as integer
+DECLARE task as Task Struct Pointer
+DECLARE taskCopy as Task Struct
+DECLARE ascendingOrder as integer
+FUNCTION sortByStatusCode(taskCount, task,taskCopy, ascendingOrder)
+    DECLARE i as integer
+    DECLARE j as integer
+
+    LOOP i FROM 0 To taskCount STEP 1
+        LOOP j FROM i+1 To taskCount STEP 1
+            IF (ascendingOrder = TRUE)  THEN 
+                IF (task[i].status_code > task[j].status_code) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ELSE 
+                IF task[i].status_code < task[j].status_code THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ENDIF
+            NEXT j
+        ENDLOOP
+        NEXT i
+    ENDLOOP
+ENDFUNCTION
+
+-----------------------------------------------------------------------------
+
+//Function to Sort the Task by the Task Priority Code
+DECLARE taskCount as integer
+DECLARE task as Task Struct Pointer
+DECLARE taskCopy as Task Struct
+DECLARE ascendingOrder as integer
+FUNCTION sortByPriorityCode(taskCount, task, taskCopy, ascendingOrder)
+    DECLARE i as integer
+    DECLARE j as integer
+
+    LOOP i FROM 0 To taskCount STEP 1
+        LOOP j FROM i+1 To taskCount STEP 1
+            IF (ascendingOrder = TRUE)  THEN 
+                IF (task[i].priority_code > task[j].priority_code) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ELSE 
+                IF task[i].priority_code < task[j].priority_code THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ENDIF
+            NEXT j
+        ENDLOOP
+        NEXT i
+    ENDLOOP
+ENDFUNCTION
+
+----------------------------------------------------------------------------------------------------------------
+
+//Function to Sort the Task by the Task Title
+DECLARE taskCount as integer
+DECLARE task as Task Struct Pointer
+DECLARE taskCopy as Task Struct
+DECLARE ascendingOrder as integer
+FUNCTION sortByTitle(taskCount, task, taskCopy, ascendingOrder)
+    DECLARE i as integer
+    DECLARE j as integer
+
+    LOOP i FROM 0 To taskCount STEP 1
+        LOOP j FROM i+1 To taskCount STEP 1
+            IF (ascendingOrder = TRUE)  THEN 
+                IF ( task[i].title have alphabetically earlier letters compared to task[j].title ) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ELSE 
+                IF (task[j].title have alphabetically earlier letters compared to task[i].title) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ENDIF
+            NEXT j
+        ENDLOOP
+        NEXT i
+    ENDLOOP
+ENDFUNCTION
+
+----------------------------------------------------------------------------------------------------------------
+
+//Function to Sort the Task by the Deadline
+
+DECLARE taskCount as integer
+DECLARE task as Task Struct Pointer
+DECLARE taskCopy as Task Struct
+DECLARE ascendingOrder as integer
+FUNCTION sortByDeadline(taskCount, task, taskCopy, ascendingOrder)
+
+    LOOP i FROM 0 To taskCount STEP 1
+        LOOP j FROM i+1 To taskCount STEP 1
+            Date date_i = task[i].deadline
+            Date date_j = task[j].deadline
+            IF (ascendingOrder = TRUE) THEN
+                IF ((date_i.day + date_i.month * 100 + date_i.year * 1000) > (date_j.day + date_j.month * 100 + date_j.year * 1000)) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ELSE
+                IF ((date_i.day + date_i.month * 100 + date_i.year * 1000) < (date_j.day + date_j.month * 100 + date_j.year * 1000)) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+            ENDIF
+            NEXT j
+        ENDLOOP
+        NEXT i
+    ENDLOOP
+ENDFUNCTION
+
+----------------------------------------------------------------------------------------------------------------
+
+//Function to Sort the Task by the date and local time of creation
+
+DECLARE taskCount as integer
+DECLARE task as Task Struct Pointer
+DECLARE taskCopy as Task Struct
+DECLARE ascendingOrder as integer
+FUNCTION sortByDatetimeOfCreation(taskCount, task, taskCopy, ascendingOrder)
+
+    LOOP i FROM 0 To taskCount STEP 1
+        LOOP j FROM i+1 To taskCount STEP 1
+            IF (ascendingOrder = TRUE) THEN
+                IF (time_i > time_j) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+                ENDIF
+            ELSE
+                IF (time_i < time_j) THEN
+                    taskCopy = task[i]
+                    task[i] = task[j]
+                    task[j] = taskCopy
+            ENDIF
+            NEXT j
+        ENDLOOP
+        NEXT i
+    ENDLOOP
+ENDFUNCTION
+
+----------------------------------------------------------------------------------------------
+
+//Function to Delete Task
+
+DECLARE username as character pointer
+FUNCTION deleteTask(username)
+    DECLARE searchKey as character array with length of 256
+    DECLARE task as Task Struct
+    DECLARE taskFileReader as file pointer
+    DECLARE taskFileWriter as file pointer
+    DECLARE found as integer
+    DECLARE deleteChoice as integer
+
+    set found as FALSE
+    flush the input stream
+    DISPLAY 'Task ID to be deleted :'
+    READ searchKey
+    convert searchKey into integer
+
+    taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
+    open temp_task_record.txt in write mode using taskFileWriter 
+
+    WHILE (read task from file with the size of Task using taskFileReader)
+        IF (task.username is same as username) THEN
+            IF (task.taskId == taskId) THEN
+                found = TRUE
+                DISPLAY 'Task ID:', task.taskId
+                DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+                CALL FUNCTION displayTask(task)
+                DISPLAY 'Confirm Delete ?'
+                DISPLAY '[ 1 ] - Delete'
+                DISPLAY '[ 0 ] - Back'
+                deleteChoice = CALL FUCNTION getChoiceNum(1, 0)
+                IF (deleteChoice = TRUE) THEN
+                    DISPLAY 'Deleting task...'
+                    continue
+                ENDIF
+            ELSE
+                IF (task.taskId > taskId) THEN
+                    task.taskId = task.taskId - 1
+                ENDIF
+            ENDIF
+        ENDIF
+        write task into the file with the size of Task using taskFileWriter
+    ENDWHILE
+    close taskFileReader
+    close taskFileWriter
+    DISPLAY ('Done!')
+    remove task_record.txt
+    rename temp_task_record.txt to ask_record.txt
+    IF (found = FALSE) THEN
+        DISPLAY 'No record found with the task id. Please try again!'
+    ENDIF
+ENDFUNCTION
+
+----------------------------------------------------------------------------------------------
+
+INCLUDE stdio.h as header file
+INCLUDE account.h as header file
+INCLUDE menu.h as header file
+INCLUDE file.h as header file
+INCLUDE userDataInjection.h as header file
+INCLUDE user.h as header file
+INCLUDE admin.h as header file
+
+FUNCTION welcomePage()
+    DECLARE option as Integer
+    DECLARE maxChoice as Integer
+    DECLARE minChoice as Integer
+    DECLARE getChoiceNum(maxChoice, minChoice) as Function
+    DECLARE userOne as Account Struct
+    DECLARE loginUser() as Function
+    DECLARE registration() as Function
 
 
+    DOWHILE (option == 2)
+        DISPLAY '*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*'
+        DISPLAY 'Welcome to Goldfish Task Management System!'
+        DISPLAY '*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*'
+        DISPLAY '[ 1 ] - Login'
+        DISPLAY '[ 2 ] - Register'
+        DISPLAY '[ 0 ] - Exit
+        
+        option = CALL FUNCTION getChoiceNum(2,0)
 
-
-
+        CASE OF option
+            1: 
+                CALL FUNCTION loginUser()
+                break
+            
+            2:
+                CALL FUNCTION registration()
+                break
+            
+            0:
+                exit the program
+                break
+        ENDCASE
+    ENDDO
+ENDDO
