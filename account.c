@@ -211,7 +211,7 @@ Account loginUser() {
             strcpy(usernameCopy, user.username);
             toLower(usernameCopy);
             if ((strcmp(usernameCopy, username) == 0) && (strcmp(user.password, password) == 0)) {
-                printf("\nWelcome back, %s!", user.name); 
+                printf("\nWelcome back, %s!\n", user.name); 
                 fclose(userFileReader);
                 found = 1;
                 return user;

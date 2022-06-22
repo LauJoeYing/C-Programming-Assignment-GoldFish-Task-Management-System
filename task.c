@@ -7,7 +7,7 @@ int addTask(char *username) {
     int numberOfTasks;
 
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-    printf("\n\n\tWelcome to Add Task Section\n\n");
+    printf("\n\n\t\t\tWelcome to Add Task Section\n\n");
     printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
     
     printf("\nPlease Enter the Number of New Tasks to Be Added: ");
@@ -124,7 +124,7 @@ int setTaskPriorityCode(Task *task) {
 
 //Function to Set the New Task Deadline
 int setTaskDeadline(Task *task) {
-    printf("\nPlease Enter the Deadline of the Task : \n");
+    printf("\nDeadline of the Task -\n");
     dateValidation(&task -> deadline);   
     return 0;
 };
@@ -136,9 +136,9 @@ int confirmTask(char *username, Task *task) {
     int continueLoop = 1;
     do {
         
-        printf("\n===================================");
-        printf("\n\tTask Confirmation");
-        printf("\n===================================");
+        printf("\n=============================================");
+        printf("\n\t\tTask Confirmation");
+        printf("\n=============================================");
         displayTask(task);
         int confirmChoice;
         printf("\n--- Confirm Task Details? ---");

@@ -1,8 +1,6 @@
 //Lau_Joe_Ying
 //TP066760
 //Personal_task_management_system:Goldfish
-// Username: vivian2002
-//Password： vivian123
 
 #include <stdio.h>
 #include "account.h"
@@ -47,7 +45,7 @@ Account welcomePage()
     int option;
 
     do {
-        printf("\n\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+        printf("\n\n*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         printf("\n\n\tWelcome to Goldfish Task Management System!\n\n");
         printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
         printf("\n[ 1 ] - Login");

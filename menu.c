@@ -29,7 +29,7 @@ int getChoiceNum(int maxChoice, int minChoice) {
     int userInput_length, choice;
 
     while (1) {
-        printf("Please Enter Your Choice Number:\t\n");
+        printf("\nPlease Enter Your Choice Number:\t\n");
         scanf("%s",&userInput);
         if (checkIsNumber(userInput)) {
             choice = atoi(userInput);

@@ -915,9 +915,9 @@ FUNCTION confirmTask(username, task)
 
     set continueLoop as TRUE
     DOWHILE (continueLoop = TRUE)
-        DISPLAY '================================='
+        DISPLAY '======================================================='
         DISPLAY 'Task Confirmation'
-        DISPLAY '==================================='
+        DISPLAY '======================================================='
         CALL FUNCTION displayTask(task)
 
         DISPLAY 'Confirm task details?'
