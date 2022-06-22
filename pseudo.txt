@@ -1177,8 +1177,8 @@ ENDFUNCTION
 //Function to Search Task Using Any Keywords Which Related to the Task
 DECLARE username as Character pointer
 FUNCTION searchTask(char *username)
-    DECLARE searchKey[256] as character array
-    DECLARE searchSource[1256] as character array
+    DECLARE searchKey as character array with length of 256
+    DECLARE searchSource as character array with length of 1256
     DECLARE task as Task Struct
     DECLARE taskFileReader as file pointer
     DECLARE found as integer
@@ -1192,5 +1192,14 @@ FUNCTION searchTask(char *username)
     taskFileReader = CALL FUNCTION checkFileExistence("task_record.txt", "r", 0)
     WHILE (read task from the file with the size of Task using taskFileReader)
         copy character string from task.title to searchSource
+        concatenate searchSource and task.description
+        convert searchSource to lowercase
+
+        IF (task.username is same as username) AND (searchSource is same as searchKey)) THEN
+        DISPLAY 'Task ID:', task.taskId
+        DISPLAY 'Datetime of Creation:', task.datetime_of_creation
+
+
+
 
 
